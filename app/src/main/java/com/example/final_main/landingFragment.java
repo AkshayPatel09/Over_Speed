@@ -89,7 +89,9 @@ public class landingFragment extends Fragment {
                 transaction.commit();
             }
         });
+
         return view;
     }
+
 
 }
