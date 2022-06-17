@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private landingFragment lf;
+    private LogInFragment lif;
 
 
     @Override
@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        lf = new landingFragment();
-        transaction.replace(R.id.flMain, lf);
+        lif = new LogInFragment();
+        transaction.replace(R.id.flMain, lif);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (count == 0) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            lf = new landingFragment();
-            transaction.replace(R.id.flMain, lf);
+            lif = new LogInFragment();
+            transaction.replace(R.id.flMain, lif);
             transaction.addToBackStack(null);
             transaction.commit();
         }
