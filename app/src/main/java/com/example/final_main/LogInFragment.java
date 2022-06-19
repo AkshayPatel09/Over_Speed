@@ -9,12 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LogInFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
 public class LogInFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -27,6 +31,15 @@ public class LogInFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private EditText EdtEmail;
+    private EditText EdtPassword;
+
+    private Button BtnLogin;
+    private TextView NewAccount;
+    private String Email;
+    private String Password;
+
+    private SignUpFragment signUpFragment;
 
     public LogInFragment() {
         // Required empty public constructor
@@ -66,7 +79,26 @@ public class LogInFragment extends Fragment {
         // Inflate the layout for this fragment
 
          View view =inflater.inflate(R.layout.fragment_log_in, container, false);
+         EdtEmail = view.findViewById(R.id.edt_email);
+         EdtPassword = view.findViewById(R.id.edt_pass);
+         BtnLogin = view.findViewById(R.id.login_btn);
+         NewAccount = view.findViewById(R.id.new_acc);
 
+         Email = EdtEmail.getText().toString();
+         Password = EdtPassword.getText().toString();
+
+
+         NewAccount.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                 signUpFragment = new SignUpFragment();
+                 transaction.replace(R.id.flMain, signUpFragment);
+                 transaction.addToBackStack(null);
+                 transaction.commit();
+             }
+         });
          return view;
     }
+
 }
