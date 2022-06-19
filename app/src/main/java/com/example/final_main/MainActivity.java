@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private LogInFragment lif;
-
+//    private SignUpFragment suf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         lif = new LogInFragment();
+//        suf = new SignUpFragment();
         transaction.replace(R.id.flMain, lif);
+//        transaction.replace(R.id.flMain, suf);
         transaction.addToBackStack(null);
         transaction.commit();
     }

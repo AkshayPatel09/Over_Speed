@@ -2,11 +2,14 @@ package com.example.final_main;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,10 @@ public class SignUpFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private TextView login;
+    private FragmentTransaction transaction;
+    LogInFragment lif;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -59,6 +66,19 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false);
+        View v =  inflater.inflate(R.layout.fragment_sign_up, container, false);
+        login = v.findViewById(R.id.logInBtn);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                lif = new LogInFragment();
+                transaction.replace(R.id.flMain, lif);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        return v;
     }
 }
