@@ -20,5 +20,7 @@
     <string name="sign_up_con_password">Confirm Password</string>
     <string name="sign_up_log_in">Login</string>
     <string name="sign_up_already_account">Already have a account ?</string>
+    <string name="email">Email</string>
+    <string name="Password">Password</string>
 
 </resources>
