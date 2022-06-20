@@ -2,15 +2,25 @@ package com.example.final_main;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,12 +44,13 @@ public class LogInFragment extends Fragment {
     private EditText EdtEmail;
     private EditText EdtPassword;
 
-    private Button BtnLogin;
+    private Button btnLogin;
     private TextView NewAccount;
-    private String Email;
-    private String Password;
-
     private SignUpFragment signUpFragment;
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    UserInfo userInfo;
 
     public LogInFragment() {
         // Required empty public constructor
@@ -81,11 +92,12 @@ public class LogInFragment extends Fragment {
          View view =inflater.inflate(R.layout.fragment_log_in, container, false);
          EdtEmail = view.findViewById(R.id.edt_email);
          EdtPassword = view.findViewById(R.id.edt_pass);
-         BtnLogin = view.findViewById(R.id.login_btn);
+         btnLogin = view.findViewById(R.id.login_btn);
          NewAccount = view.findViewById(R.id.new_acc);
+         firebaseDatabase = FirebaseDatabase.getInstance();
+         databaseReference = firebaseDatabase.getReference("UserInfo");
+         userInfo = new UserInfo();
 
-         Email = EdtEmail.getText().toString();
-         Password = EdtPassword.getText().toString();
 
 
          NewAccount.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +108,47 @@ public class LogInFragment extends Fragment {
                  transaction.replace(R.id.flMain, signUpFragment);
                  transaction.addToBackStack(null);
                  transaction.commit();
+             }
+         });
+
+         btnLogin.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 if(TextUtils.isEmpty(EdtEmail.getText().toString()) || TextUtils.isEmpty(EdtPassword.getText().toString())){
+                     Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                 }
+                 else{
+                     Query query = databaseReference.orderByChild("email").equalTo(EdtEmail.getText().toString());
+                     query.addListenerForSingleValueEvent(new ValueEventListener() {
+                         @Override
+                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                             if(snapshot.exists()){
+                                 for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+                                     String dbPassword = (String) messageSnapshot.child("password").getValue();
+                                     if(dbPassword.equals(EdtPassword.getText().toString())){
+                                         userInfo.setFirstName((String) messageSnapshot.child("firstName").getValue());
+                                         userInfo.setLastName((String) messageSnapshot.child("lastName").getValue());
+                                         userInfo.setPhone((String) messageSnapshot.child("phone").getValue());
+                                         userInfo.setEmail((String) messageSnapshot.child("email").getValue());
+                                         userInfo.setPassword(dbPassword);
+                                         Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
+                                     }
+                                     else{
+                                         Toast.makeText(getActivity(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                                         EdtPassword.setError("Incorrect password!!");
+                                     }
+                                 }
+                             } else{
+                                 Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                             }
+                         }
+
+                         @Override
+                         public void onCancelled(@NonNull DatabaseError error) {
+
+                         }
+                     });
+                 }
              }
          });
          return view;
