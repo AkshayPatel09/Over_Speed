@@ -2,14 +2,29 @@ package com.example.final_main;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +45,11 @@ public class SignUpFragment extends Fragment {
     private TextView login;
     private FragmentTransaction transaction;
     LogInFragment lif;
+    private EditText fName,lName,phone,email,password,confirmPassword;
+    private Button createAccountBtn;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    UserInfo userInfo;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -67,8 +87,22 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_sign_up, container, false);
-        login = v.findViewById(R.id.logInBtn);
+        fName = v.findViewById(R.id.firstName);
+        lName = v.findViewById(R.id.lastName);
+        email = v.findViewById(R.id.email);
+        phone = v.findViewById(R.id.phone);
+        password = v.findViewById(R.id.password);
+        confirmPassword = v.findViewById(R.id.confirmPassword);
+        createAccountBtn = v.findViewById(R.id.createAccountBtn);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("UserInfo");
+        userInfo = new UserInfo();
 
+        /**
+         * Changes signup fragment with login fragment
+         * */
+
+        login = v.findViewById(R.id.logInBtn);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +113,97 @@ public class SignUpFragment extends Fragment {
                 transaction.commit();
             }
         });
+        /**
+         * saves the data to data base
+         */
+        createAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 * email validation
+                 */
+                String regexEmail = "^[A-Za-z0-9+.]+@(.+)$";
+                Pattern patternEmail = Pattern.compile(regexEmail);
+                Matcher emailMatcher = patternEmail.matcher(email.getText().toString());
+
+                /**
+                 * phone number validation
+                 */
+                String regexPhone = "(0/91)?[7-9][0-9]{9}";
+                Pattern patternPhone= Pattern.compile(regexPhone);
+                Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
+
+                /**
+                 * password validation
+                 */
+                String regexPassword =  "^(?=.*[0-9])"
+                        + "(?=.*[a-z])(?=.*[A-Z])"
+                        + "(?=.*[@#$%^&+=])"
+                        +  "(?=\\S+$).{8,12}$";;
+                Pattern patternPassword= Pattern.compile(regexPassword);
+                Matcher passwordMatcher = patternPassword.matcher(password.getText().toString());
+
+                if(fName.getText().toString().length()==0 || lName.getText().toString().length()==0 || email.getText().toString().length()==0 || phone.getText().toString().length()==0 || password.getText().toString().length()==0 || confirmPassword.getText().toString().length()==0){
+                    Toast.makeText(getActivity(), "Please fill all the fileds!!", Toast.LENGTH_SHORT).show();
+                }else if(!emailMatcher.matches()){
+                    Toast.makeText(getActivity(), "Email format is incorrect!!", Toast.LENGTH_SHORT).show();
+                    email.setError("Email format is incorrect!!");
+                }else if(!phoneMatcher.matches()){
+                    Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
+                    phone.setError("Phone number format is incorrect!!");
+                }else if(!passwordMatcher.matches()){
+                    Toast.makeText(getActivity(), "Password format is incorrect!!", Toast.LENGTH_SHORT).show();
+                    password.setError("Password format is incorrect!!");
+                }else if(!password.getText().toString().equals(confirmPassword.getText().toString())){
+                    Toast.makeText(getActivity(), "confirm password doesn't match!!", Toast.LENGTH_SHORT).show();
+                    confirmPassword.setError("confirm password doesn't match!!");
+                }else{
+//                    Toast.makeText(getActivity(), "sending data.....", Toast.LENGTH_SHORT).show();
+                    Query query = databaseReference.orderByChild("email").equalTo(email.getText().toString());
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+                                    Toast.makeText(getActivity(),"Email is already registered!!" , Toast.LENGTH_SHORT).show();
+                                    email.setError("Email is already registered!!");
+                                }
+                            }
+                            else{
+                                addDatatoFirebase(fName.getText().toString(), lName.getText().toString(), email.getText().toString(),phone.getText().toString(),password.getText().toString());
+                                Toast.makeText(getActivity(), "Account created successfully!!", Toast.LENGTH_SHORT).show();
+                                transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                lif = new LogInFragment();
+                                transaction.replace(R.id.flMain, lif);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+//                Toast.makeText(getActivity(), ".....", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         return v;
+    }
+
+    private void addDatatoFirebase(String fName,String lName,String email,String phone,String password){
+        userInfo.setFirstName(fName);
+        userInfo.setLastName(lName);
+        userInfo.setEmail(email);
+        userInfo.setPhone(phone);
+        userInfo.setPassword(password);
+
+        String uId = databaseReference.push().getKey();
+        databaseReference.child(uId).setValue(userInfo);
+
     }
 }
