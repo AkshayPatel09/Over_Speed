@@ -1,5 +1,6 @@
 package com.example.final_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,7 +47,9 @@ public class LogInFragment extends Fragment {
 
     private Button btnLogin;
     private TextView NewAccount;
+    private TextView forgetPassword;
     private SignUpFragment signUpFragment;
+    private ForgetPasswordFragment forgetPasswordFragment;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -96,6 +99,7 @@ public class LogInFragment extends Fragment {
          NewAccount = view.findViewById(R.id.new_acc);
          firebaseDatabase = FirebaseDatabase.getInstance();
          databaseReference = firebaseDatabase.getReference("UserInfo");
+         forgetPassword = view.findViewById(R.id.forget_pass);
          userInfo = new UserInfo();
 
 
@@ -106,6 +110,17 @@ public class LogInFragment extends Fragment {
                  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                  signUpFragment = new SignUpFragment();
                  transaction.replace(R.id.flMain, signUpFragment);
+                 transaction.addToBackStack(null);
+                 transaction.commit();
+             }
+         });
+
+         forgetPassword.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                 forgetPasswordFragment = new ForgetPasswordFragment();
+                 transaction.replace(R.id.flMain, forgetPasswordFragment);
                  transaction.addToBackStack(null);
                  transaction.commit();
              }
@@ -132,6 +147,8 @@ public class LogInFragment extends Fragment {
                                          userInfo.setEmail((String) messageSnapshot.child("email").getValue());
                                          userInfo.setPassword(dbPassword);
                                          Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
+                                         Intent intent = new Intent(getActivity(),HomeActivity.class);
+                                         startActivity(intent);
                                      }
                                      else{
                                          Toast.makeText(getActivity(), "Incorrect password", Toast.LENGTH_SHORT).show();

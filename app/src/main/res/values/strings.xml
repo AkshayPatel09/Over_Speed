@@ -4,11 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_in">Log In</string>
     <string name="welcome_back">Welcome Back</string>
-    <string name="sign_to_continue">Sign to continue</string>
+    <string name="sign_to_continue">Sign in to continue</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="dont_t_have_account">Dont\'t have account?</string>
+    <string name="dont_t_have_account">Don\'t have an account?</string>
     <string name="create_a_new_account">create a new account</string>
     <string name="create_account">Create Account</string>
     <string name="sign_up_subtitle">Create a new account</string>
@@ -19,8 +19,21 @@
     <string name="sign_up_password">Password</string>
     <string name="sign_up_con_password">Confirm Password</string>
     <string name="sign_up_log_in">Login</string>
-    <string name="sign_up_already_account">Already have a account ?</string>
+    <string name="sign_up_already_account">Already have an account ?</string>
     <string name="email">Email</string>
     <string name="Password">Password</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="forget_pass">Forget password</string>
+    <string name="send_link">Send Link</string>
 
 </resources>
