@@ -4,11 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_in">Log In</string>
     <string name="welcome_back">Welcome Back</string>
-    <string name="sign_to_continue">Sign to continue</string>
+    <string name="sign_to_continue">Sign in to continue</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="dont_t_have_account">Dont\'t have account?</string>
+    <string name="dont_t_have_account">Dont\'t have an account?</string>
     <string name="create_a_new_account">create a new account</string>
     <string name="create_account">Create Account</string>
     <string name="sign_up_subtitle">Create a new account</string>
@@ -19,7 +19,7 @@
     <string name="sign_up_password">Password</string>
     <string name="sign_up_con_password">Confirm Password</string>
     <string name="sign_up_log_in">Login</string>
-    <string name="sign_up_already_account">Already have a account ?</string>
+    <string name="sign_up_already_account">Already have an account ?</string>
     <string name="email">Email</string>
     <string name="Password">Password</string>
 
