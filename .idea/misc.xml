@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/activity_main.xml" value="0.2151268115942029" />
+        <entry key="..\:/Iottive/final_main/app/src/main/res/layout/content_home.xml" value="0.12360688956433637" />
+        <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_forget_password.xml" value="0.21331521739130435" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_landing.xml" value="0.2151268115942029" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_log_in.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_sign_up.xml" value="0.22735507246376813" />
