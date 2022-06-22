@@ -1,9 +1,11 @@
 package com.example.final_main;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.final_main.ui.gallery.GalleryFragment;
@@ -29,6 +31,13 @@ public class HomeActivity extends AppCompatActivity {
     private Historyfragment historyfragment;
     private GalleryFragment galleryFragment; // (Settings Fragment)
     private SlideshowFragment slideshowFragment; // (Contact us Fragment)
+    private SharedPreferences sharedPreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String FIRSTNAME = "firstName";
+    public static final String LASTNAME = "lastName";
+    public static final String EMAIL = "email";
+    public static final String PHONE = "phone";
+    public static final String ISLOGGEDIN = "isLoggedIn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,11 @@ public class HomeActivity extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        sharedPreferences = getSharedPreferences(MyPREFERENCES,MODE_PRIVATE);
+
+        String firstName = sharedPreferences.getString(FIRSTNAME,"");
+        String lastName = sharedPreferences.getString(LASTNAME,"");
+        String email = sharedPreferences.getString(EMAIL,"");
 
         setSupportActionBar(binding.appBarHome.toolbar);
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +61,15 @@ public class HomeActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+
+        View headerView = navigationView.getHeaderView(0);
+        // Get Username and Email TextViews
+        TextView userName = headerView.findViewById(R.id.userName);
+        TextView userEmail = headerView.findViewById(R.id.userEmail);
+        // set user name and email
+        userName.setText(firstName+" "+lastName);
+        userEmail.setText(email);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

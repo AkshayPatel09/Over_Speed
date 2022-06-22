@@ -34,9 +34,11 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="forget_pass">Forget password</string>
-    <string name="send_link">Send Link</string>
+    <string name="send_link">Send OTP</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
     <string name="contact_us">Contact Us</string>
+    <string name="OTP">OTP</string>
+    <string name="verify_user">Verify</string>
 
 </resources>

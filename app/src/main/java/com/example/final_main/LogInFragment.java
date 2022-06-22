@@ -151,11 +151,7 @@ public class LogInFragment extends Fragment {
                                  for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
                                      String dbPassword = (String) messageSnapshot.child("password").getValue();
                                      if(dbPassword.equals(EdtPassword.getText().toString())){
-//                                         userInfo.setFirstName((String) messageSnapshot.child("firstName").getValue());
-//                                         userInfo.setLastName((String) messageSnapshot.child("lastName").getValue());
-//                                         userInfo.setPhone((String) messageSnapshot.child("phone").getValue());
-//                                         userInfo.setEmail((String) messageSnapshot.child("email").getValue());
-//                                         userInfo.setPassword(dbPassword);
+
                                          sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
                                          SharedPreferences.Editor editor = sharedpreferences.edit();
 
