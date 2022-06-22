@@ -1,12 +1,18 @@
 package com.example.final_main;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
+import com.example.final_main.ui.gallery.GalleryFragment;
+import com.example.final_main.ui.slideshow.SlideshowFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +26,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
+    private Historyfragment historyfragment;
+    private GalleryFragment galleryFragment; // (Settings Fragment)
+    private SlideshowFragment slideshowFragment; // (Contact us Fragment)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +50,48 @@ public class HomeActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_history, R.id.nav_settings, R.id.nav_contactus)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId() == R.id.nav_history)
+                {
+                    Toast.makeText(HomeActivity.this, "History!!", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    historyfragment = new Historyfragment();
+                    transaction.replace(R.id.flNav, historyfragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                else if(item.getItemId() == R.id.nav_settings)
+                {
+                    Toast.makeText(HomeActivity.this, "settings!!", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    galleryFragment = new GalleryFragment();
+                    transaction.replace(R.id.flNav, galleryFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                else if(item.getItemId() == R.id.nav_contactus)
+                {
+                    Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    slideshowFragment = new SlideshowFragment();
+                    transaction.replace(R.id.flNav, slideshowFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
