@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.example.final_main.ui.gallery.GalleryFragment;
+import com.example.final_main.ui.home.HomeFragment;
 import com.example.final_main.ui.slideshow.SlideshowFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -26,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
+    private HomeFragment homeFragment;
     private Historyfragment historyfragment;
     private GalleryFragment galleryFragment; // (Settings Fragment)
     private SlideshowFragment slideshowFragment; // (Contact us Fragment)
