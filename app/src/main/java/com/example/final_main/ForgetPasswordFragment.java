@@ -1,12 +1,13 @@
 package com.example.final_main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.se.omapi.Session;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,12 +52,22 @@ public class ForgetPasswordFragment extends Fragment {
     private String mParam2;
 
 
-    private TextView email;
-    private Button sendLink;
+    private TextView email,phone,otp;
+    private Button sendOTP,verifyBtn;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    FirebaseAuth auth;
 
+    private FirebaseAuth mAuth;
+    private String verify;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String FIRSTNAME = "firstName";
+    public static final String LASTNAME = "lastName";
+    public static final String EMAIL = "email";
+    public static final String PHONE = "phone";
+    public static final String ISLOGGEDIN = "isLoggedIn";
+    SharedPreferences sharedpreferences;
+
+    String dbEmail,dbPhone,dbFirstName,dbLastName;
 
     public ForgetPasswordFragment() {
         // Required empty public constructor
@@ -90,12 +106,17 @@ public class ForgetPasswordFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_forget_password, container, false);
         email = v.findViewById(R.id.forgetPasswordEmail);
-        sendLink = v.findViewById(R.id.sendLink);
+        sendOTP = v.findViewById(R.id.sendOTP);
+        phone = v.findViewById(R.id.forgetPasswordPhone);
+        otp = v.findViewById(R.id.forgetPasswordOTP);
+        verifyBtn = v.findViewById(R.id.verifyBtn);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("UserInfo");
-        auth = FirebaseAuth.getInstance();
 
-        sendLink.setOnClickListener(new View.OnClickListener() {
+
+        mAuth = FirebaseAuth.getInstance();
+
+        sendOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(email.getText().toString())) {
@@ -108,59 +129,20 @@ public class ForgetPasswordFragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
-                                    String dbEmail = (String) messageSnapshot.child("email").getValue();
-                                    String dbPassword = (String) messageSnapshot.child("password").getValue();
-                                    Properties properties = new Properties();
-                                    properties.put("mail.smtp.auth","true");
-                                    properties.put("mail.smtp.starttls.enable","true");
-                                    properties.put("mail.smtp.host","smtp.gmail.com");
-                                    properties.put("mail.smtp.port","587");
+                                    dbEmail = (String) messageSnapshot.child("email").getValue();
+                                    dbPhone = (String) messageSnapshot.child("phone").getValue();
+                                    dbFirstName = (String) messageSnapshot.child("firstName").getValue();
+                                    dbLastName = (String) messageSnapshot.child("lastName").getValue();
 
 
-                                    if (dbEmail.equals(email.getText().toString())) {
+                                    if (dbEmail.equals(email.getText().toString()) && dbPhone.equals(phone.getText().toString())) {
 
-                                        String emailAddress = email.getText().toString();
+                                        sendVerificationCode("+91"+dbPhone);
 
-                                        auth.sendPasswordResetEmail(emailAddress)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Toast.makeText(getActivity(), "Got Link", Toast.LENGTH_SHORT).show();
 
-                                                        }
-                                                        else{
-                                                            Toast.makeText(getActivity(), ".............", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-
-                                                });
-                                        Toast.makeText(getActivity(), "Link have been send to your email!!", Toast.LENGTH_SHORT).show();
-//                                        ActionCodeSettings actionCodeSettings =
-//                                                ActionCodeSettings.newBuilder()
-//                                                        // URL you want to redirect back to. The domain (www.example.com) for this
-//                                                        // URL must be whitelisted in the Firebase Console.
-//                                                        .setUrl("https://www.finalmain-3615a.firebaseapp.com/verify?uid=WvDqFct5h0ckJzhcARCorAt0aIj2")
-//                                                        // This must be true
-//                                                        .setHandleCodeInApp(true)
-//                                                        .setAndroidPackageName(
-//                                                                "com.example.final_main",
-//                                                                true, /* installIfNotAvailable */
-//                                                                "8"    /* minimumVersion */)
-//                                                        .build();
-//                                                    FirebaseAuth auth = FirebaseAuth.getInstance();
-//                                                    auth.sendSignInLinkToEmail(email.getText().toString(), actionCodeSettings)
-//                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                                @Override
-//                                                                public void onComplete(@NonNull Task<Void> task) {
-//                                                                    if (task.isSuccessful()) {
-//                                                                        Toast.makeText(getActivity(), "Link send!!!", Toast.LENGTH_SHORT).show();
-//                                                                    }
-//                                                                }
-//                                                            });
-                                        /**
-                                         *
-                                         */
+                                    }else if(!dbPhone.equals(phone.getText().toString())){
+                                        Toast.makeText(getActivity(), "Phone number is not correct!!", Toast.LENGTH_SHORT).show();
+                                        phone.setError("Phone number is not correct!!");
                                     }
 
                                 }
@@ -179,6 +161,125 @@ public class ForgetPasswordFragment extends Fragment {
             }
         });
 
+        verifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(otp.getText().toString())) {
+                    // if the OTP text field is empty display
+                    // a message to user to enter OTP
+                    Toast.makeText(getActivity(), "Please enter OTP", Toast.LENGTH_SHORT).show();
+                } else {
+                    // if OTP field is not empty calling
+                    // method to verify the OTP.
+                    verifyCode(otp.getText().toString());
+                }
+            }
+        });
+
         return v;
+    }
+    private void sendVerificationCode(String number) {
+        // this method is used for getting
+        // OTP on user phone number.
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(number)            // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(getActivity())                 // Activity (for callback binding)
+                        .setCallbacks(mCallBack)           // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
+
+            // initializing our callbacks for on
+            // verification callback method.
+            mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        // below method is used when
+        // OTP is sent from Firebase
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);
+            // when we receive the OTP it
+            // contains a unique id which
+            // we are storing in our string
+            // which we have already created.
+            verify = s;
+        }
+
+        // this method is called when user
+        // receive OTP from Firebase.
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            // below line is used for getting OTP code
+            // which is sent in phone auth credentials.
+            final String code = phoneAuthCredential.getSmsCode();
+
+            // checking if the code
+            // is null or not.
+            if (code != null) {
+                // if the code is not null then
+                // we are setting that code to
+                // our OTP edittext field.
+                otp.setText(code);
+
+                // after setting this code
+                // to OTP edittext field we
+                // are calling our verifycode method.
+                verifyCode(code);
+            }
+        }
+
+        // this method is called when firebase doesn't
+        // sends our OTP code due to any error or issue.
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            // displaying error message with firebase exception.
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    };
+
+    // below method is use to verify code from Firebase.
+    private void verifyCode(String code) {
+        // below line is used for getting
+        // credentials from our verification id and code.
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verify, code);
+
+        // after getting credential we are
+        // calling sign in method.
+        signInWithCredential(credential);
+    }
+    private void signInWithCredential(PhoneAuthCredential credential) {
+        // inside this method we are checking if
+        // the code entered is correct or not.
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // if the code is correct and the task is successful
+                            // we are sending our user to new activity.
+                            saveData();
+                            Intent i = new Intent(getActivity(), HomeActivity.class);
+                            startActivity(i);
+
+                        } else {
+                            // if the code is not correct then we are
+                            // displaying an error message to the user.
+                            Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+    private void saveData(){
+        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(FIRSTNAME,dbFirstName);
+        editor.putString(LASTNAME,dbLastName);
+        editor.putString(EMAIL,dbEmail);
+        editor.putString(PHONE,dbPhone);
+        editor.putString(ISLOGGEDIN,"true");
+        editor.commit();
     }
 }
