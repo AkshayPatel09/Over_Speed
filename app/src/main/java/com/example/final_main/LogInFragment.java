@@ -1,6 +1,8 @@
 package com.example.final_main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -54,6 +56,14 @@ public class LogInFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     UserInfo userInfo;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String FIRSTNAME = "firstName";
+    public static final String LASTNAME = "lastName";
+    public static final String EMAIL = "email";
+    public static final String PHONE = "phone";
+    public static final String ISLOGGEDIN = "isLoggedIn";
+    SharedPreferences sharedpreferences;
 
     public LogInFragment() {
         // Required empty public constructor
@@ -141,11 +151,20 @@ public class LogInFragment extends Fragment {
                                  for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
                                      String dbPassword = (String) messageSnapshot.child("password").getValue();
                                      if(dbPassword.equals(EdtPassword.getText().toString())){
-                                         userInfo.setFirstName((String) messageSnapshot.child("firstName").getValue());
-                                         userInfo.setLastName((String) messageSnapshot.child("lastName").getValue());
-                                         userInfo.setPhone((String) messageSnapshot.child("phone").getValue());
-                                         userInfo.setEmail((String) messageSnapshot.child("email").getValue());
-                                         userInfo.setPassword(dbPassword);
+//                                         userInfo.setFirstName((String) messageSnapshot.child("firstName").getValue());
+//                                         userInfo.setLastName((String) messageSnapshot.child("lastName").getValue());
+//                                         userInfo.setPhone((String) messageSnapshot.child("phone").getValue());
+//                                         userInfo.setEmail((String) messageSnapshot.child("email").getValue());
+//                                         userInfo.setPassword(dbPassword);
+                                         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
+                                         SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                                         editor.putString(FIRSTNAME,(String) messageSnapshot.child("firstName").getValue() );
+                                         editor.putString(LASTNAME,(String) messageSnapshot.child("lastName").getValue() );
+                                         editor.putString(EMAIL,(String) messageSnapshot.child("email").getValue() );
+                                         editor.putString(PHONE,(String) messageSnapshot.child("phone").getValue());
+                                         editor.putString(ISLOGGEDIN,"true");
+                                         editor.commit();
                                          Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
                                          Intent intent = new Intent(getActivity(),HomeActivity.class);
                                          startActivity(intent);
