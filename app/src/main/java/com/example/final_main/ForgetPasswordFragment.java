@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.se.omapi.Session;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+
+import java.util.Properties;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +50,7 @@ public class ForgetPasswordFragment extends Fragment {
     private Button sendLink;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    FirebaseAuth auth;
 
 
     public ForgetPasswordFragment() {
@@ -88,6 +93,7 @@ public class ForgetPasswordFragment extends Fragment {
         sendLink = v.findViewById(R.id.sendLink);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("UserInfo");
+        auth = FirebaseAuth.getInstance();
 
         sendLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,30 +109,55 @@ public class ForgetPasswordFragment extends Fragment {
                             if (snapshot.exists()) {
                                 for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                                     String dbEmail = (String) messageSnapshot.child("email").getValue();
+                                    String dbPassword = (String) messageSnapshot.child("password").getValue();
+                                    Properties properties = new Properties();
+                                    properties.put("mail.smtp.auth","true");
+                                    properties.put("mail.smtp.starttls.enable","true");
+                                    properties.put("mail.smtp.host","smtp.gmail.com");
+                                    properties.put("mail.smtp.port","587");
+
+
                                     if (dbEmail.equals(email.getText().toString())) {
+
+                                        String emailAddress = email.getText().toString();
+
+                                        auth.sendPasswordResetEmail(emailAddress)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getActivity(), "Got Link", Toast.LENGTH_SHORT).show();
+
+                                                        }
+                                                        else{
+                                                            Toast.makeText(getActivity(), ".............", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+
+                                                });
                                         Toast.makeText(getActivity(), "Link have been send to your email!!", Toast.LENGTH_SHORT).show();
-                                        ActionCodeSettings actionCodeSettings =
-                                                ActionCodeSettings.newBuilder()
-                                                        // URL you want to redirect back to. The domain (www.example.com) for this
-                                                        // URL must be whitelisted in the Firebase Console.
-                                                        .setUrl("https://www.finalmain-3615a.firebaseapp.com/verify?uid=WvDqFct5h0ckJzhcARCorAt0aIj2")
-                                                        // This must be true
-                                                        .setHandleCodeInApp(true)
-                                                        .setAndroidPackageName(
-                                                                "com.example.final_main",
-                                                                true, /* installIfNotAvailable */
-                                                                "8"    /* minimumVersion */)
-                                                        .build();
-                                                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                                                    auth.sendSignInLinkToEmail(email.getText().toString(), actionCodeSettings)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        Toast.makeText(getActivity(), "Link send!!!", Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                }
-                                                            });
+//                                        ActionCodeSettings actionCodeSettings =
+//                                                ActionCodeSettings.newBuilder()
+//                                                        // URL you want to redirect back to. The domain (www.example.com) for this
+//                                                        // URL must be whitelisted in the Firebase Console.
+//                                                        .setUrl("https://www.finalmain-3615a.firebaseapp.com/verify?uid=WvDqFct5h0ckJzhcARCorAt0aIj2")
+//                                                        // This must be true
+//                                                        .setHandleCodeInApp(true)
+//                                                        .setAndroidPackageName(
+//                                                                "com.example.final_main",
+//                                                                true, /* installIfNotAvailable */
+//                                                                "8"    /* minimumVersion */)
+//                                                        .build();
+//                                                    FirebaseAuth auth = FirebaseAuth.getInstance();
+//                                                    auth.sendSignInLinkToEmail(email.getText().toString(), actionCodeSettings)
+//                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                                @Override
+//                                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                                    if (task.isSuccessful()) {
+//                                                                        Toast.makeText(getActivity(), "Link send!!!", Toast.LENGTH_SHORT).show();
+//                                                                    }
+//                                                                }
+//                                                            });
                                         /**
                                          *
                                          */
