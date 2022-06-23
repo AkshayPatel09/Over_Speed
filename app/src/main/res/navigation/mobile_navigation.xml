@@ -15,7 +15,8 @@
         android:id="@+id/nav_settings"
         android:name="com.example.final_main.ui.gallery.GalleryFragment"
         android:label="@string/settings"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery"
+        />
 
     <fragment
         android:id="@+id/nav_contactus"
