@@ -48,5 +48,6 @@
     <string name="ReEnterPassword">Re-Enter New Password</string>
     <string name="enterNewPassword">Enter New Password</string>
     <string name="enterOldPassword">Enter Old Password</string>
+    <string name="apply_changes">Apply Changes</string>
 
 </resources>

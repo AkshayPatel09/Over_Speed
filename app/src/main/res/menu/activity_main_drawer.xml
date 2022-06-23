@@ -24,7 +24,8 @@
 
                 <item
                     android:icon="@drawable/ic_baseline_edit_24"
-                    android:title="Edit profile">
+                    android:title="Edit profile"
+                    android:id="@+id/nav_editprofile">
 
                 </item>
                 <item
@@ -49,6 +50,7 @@
 
                 </item>
                 <item
+                    android:id="@+id/nav_aboutus"
                     android:icon="@drawable/ic_baseline_person_24"
                     android:title="About Us">
 
