@@ -44,5 +44,9 @@
     <string name="how_can_i_help_you">How can I help you?</string>
     <string name="message">Message</string>
     <string name="how_can_we_help_you">How can we help you?</string>
+    <string name="change_password">Change Password</string>
+    <string name="ReEnterPassword">Re-Enter New Password</string>
+    <string name="enterNewPassword">Enter New Password</string>
+    <string name="enterOldPassword">Enter Old Password</string>
 
 </resources>

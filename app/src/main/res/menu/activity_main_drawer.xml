@@ -28,6 +28,7 @@
 
                 </item>
                 <item
+                    android:id="@+id/changePassword"
                     android:icon="@drawable/ic_baseline_vpn_key_24"
                     android:title="Change Password">
 

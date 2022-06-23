@@ -128,6 +128,14 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 }
+                else if(item.getItemId()==R.id.changePassword){
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+                    transaction.replace(R.id.flNav, changePasswordFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    drawer.closeDrawers();
+                }
                 return false;
             }
         });

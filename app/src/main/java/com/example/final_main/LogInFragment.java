@@ -62,6 +62,7 @@ public class LogInFragment extends Fragment {
     public static final String LASTNAME = "lastName";
     public static final String EMAIL = "email";
     public static final String PHONE = "phone";
+    public static final String PASSWORD = "password";
     public static final String ISLOGGEDIN = "isLoggedIn";
     SharedPreferences sharedpreferences;
 
@@ -159,6 +160,7 @@ public class LogInFragment extends Fragment {
                                          editor.putString(LASTNAME,(String) messageSnapshot.child("lastName").getValue() );
                                          editor.putString(EMAIL,(String) messageSnapshot.child("email").getValue() );
                                          editor.putString(PHONE,(String) messageSnapshot.child("phone").getValue());
+                                         editor.putString(PASSWORD,dbPassword);
                                          editor.putString(ISLOGGEDIN,"true");
                                          editor.commit();
                                          Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
