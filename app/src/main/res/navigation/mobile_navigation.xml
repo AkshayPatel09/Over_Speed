@@ -9,17 +9,17 @@
         android:id="@+id/nav_history"
         android:name="com.example.final_main.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_historyfragment" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.final_main.ui.gallery.GalleryFragment"
+        android:name="com.example.final_main.SettingsFragment"
         android:label="@string/settings"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_contactus"
-        android:name="com.example.final_main.ui.slideshow.SlideshowFragment"
+        android:name="com.example.final_main.ContactUsFragment"
         android:label="@string/contact_us"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_contact_us" />
 </navigation>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fillViewport="true"
-    tools:context=".ui.slideshow.SlideshowFragment">
+    tools:context=".ContactUsFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView6"
@@ -83,3 +83,6 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

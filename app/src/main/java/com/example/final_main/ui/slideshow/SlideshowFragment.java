@@ -14,6 +14,7 @@ import com.example.final_main.databinding.FragmentSlideshowBinding;
 
 public class SlideshowFragment extends Fragment {
 
+    private SlideshowViewModel slideshowViewModel;
     private FragmentSlideshowBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -24,8 +25,8 @@ public class SlideshowFragment extends Fragment {
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textContactus;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //final TextView textView = binding.textSlideshow;
+       // slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

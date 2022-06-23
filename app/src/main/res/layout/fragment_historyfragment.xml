@@ -6,7 +6,4 @@
     android:background="@color/teal_200"
     tools:context=".Historyfragment">
 
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
