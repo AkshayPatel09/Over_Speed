@@ -33,8 +33,10 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
     private HomeFragment homeFragment;
     private Historyfragment historyfragment;
-    private SettingsFragment settingsFragment;
+
     private ContactUsFragment contactUsFragment;
+    private EditProfileFragment editProfileFragment;
+    private AboutusFragment aboutusFragment;
     private SharedPreferences sharedPreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String FIRSTNAME = "firstName";
@@ -98,23 +100,33 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.commit();
                     drawer.closeDrawers();
                 }
-                else if(item.getItemId() == R.id.nav_settings)
-                {
-                    Toast.makeText(HomeActivity.this, "settings!!", Toast.LENGTH_SHORT).show();
-                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
-                    settingsFragment = new SettingsFragment();
-                    transaction.replace(R.id.flNav, settingsFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                    drawer.closeDrawers();
-                }
                 else if(item.getItemId() == R.id.nav_contactus)
                 {
                     Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
-                    System.out.print("11111");
                     contactUsFragment = new ContactUsFragment();
                     transaction.replace(R.id.flNav, contactUsFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    drawer.closeDrawers();
+
+                }
+                else if(item.getItemId() == R.id.nav_editprofile)
+                {
+                    Toast.makeText(HomeActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    editProfileFragment = new EditProfileFragment();
+                    transaction.replace(R.id.flNav, editProfileFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    drawer.closeDrawers();
+                }
+                else if(item.getItemId() == R.id.nav_aboutus)
+                {
+                    Toast.makeText(HomeActivity.this, "About us", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    aboutusFragment = new AboutusFragment();
+                    transaction.replace(R.id.flNav, aboutusFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
