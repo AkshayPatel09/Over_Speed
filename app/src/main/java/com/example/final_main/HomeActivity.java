@@ -1,5 +1,7 @@
 package com.example.final_main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -81,6 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -93,6 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.replace(R.id.flNav, historyfragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                    drawer.closeDrawers();
                 }
                 else if(item.getItemId() == R.id.nav_settings)
                 {
@@ -102,6 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.replace(R.id.flNav, settingsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                    drawer.closeDrawers();
                 }
                 else if(item.getItemId() == R.id.nav_contactus)
                 {
@@ -112,6 +117,15 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.replace(R.id.flNav, contactUsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                    drawer.closeDrawers();
+
+                }
+                else if(item.getItemId()==R.id.nav_logOut){
+                    Toast.makeText(HomeActivity.this, "Logout!!", Toast.LENGTH_SHORT).show();
+                    logOut();
+                    drawer.closeDrawers();
+                    Intent intent = new Intent(HomeActivity.this,MainActivity.class);
+                    startActivity(intent);
 
                 }
                 return false;
@@ -132,5 +146,15 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    private void logOut(){
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(FIRSTNAME,"");
+        editor.putString(LASTNAME,"");
+        editor.putString(EMAIL,"");
+        editor.putString(PHONE,"");
+        editor.putString(ISLOGGEDIN,"false");
+        editor.commit();
     }
 }
