@@ -31,9 +31,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
+    private HomeFragment homeFragment;
     private Historyfragment historyfragment;
-    private GalleryFragment galleryFragment; // (Settings Fragment)
-    private SlideshowFragment slideshowFragment; // (Contact us Fragment)
+    private SettingsFragment settingsFragment;
+    private ContactUsFragment contactUsFragment;
     private SharedPreferences sharedPreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String FIRSTNAME = "firstName";
@@ -101,8 +102,8 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "settings!!", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
-                    galleryFragment = new GalleryFragment();
-                    transaction.replace(R.id.flNav, galleryFragment);
+                    settingsFragment = new SettingsFragment();
+                    transaction.replace(R.id.flNav, settingsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
@@ -111,8 +112,9 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
-                    slideshowFragment = new SlideshowFragment();
-                    transaction.replace(R.id.flNav, slideshowFragment);
+                    System.out.print("11111");
+                    contactUsFragment = new ContactUsFragment();
+                    transaction.replace(R.id.flNav, contactUsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();

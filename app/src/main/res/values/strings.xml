@@ -40,5 +40,9 @@
     <string name="contact_us">Contact Us</string>
     <string name="OTP">OTP</string>
     <string name="verify_user">Verify</string>
+    <string name="contact_us1">Contact Us</string>
+    <string name="how_can_i_help_you">How can I help you?</string>
+    <string name="message">Message</string>
+    <string name="how_can_we_help_you">How can we help you?</string>
 
 </resources>
