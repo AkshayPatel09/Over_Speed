@@ -28,15 +28,17 @@
             android:icon="@drawable/ic_baseline_notifications_24"
             android:title="Notifications">
 
-        </item>
-        <item
-            android:icon="@drawable/ic_baseline_privacy_tip_24"
-            android:title="Privacy policy">
+                </item>
+                <item
+                    android:id="@+id/nav_privacypolicy"
+                    android:icon="@drawable/ic_baseline_privacy_tip_24"
+                    android:title="Privacy policy">
 
-        </item>
-        <item
-            android:icon="@drawable/ic_baseline_import_contacts_24"
-            android:title="Terms and condition">
+                </item>
+                <item
+                    android:id="@+id/nav_termsandcondition"
+                    android:icon="@drawable/ic_baseline_import_contacts_24"
+                    android:title="Terms and condition">
 
         </item>
         <item
