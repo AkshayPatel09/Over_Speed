@@ -147,6 +147,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "Privacy policy", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_privacypolicy);
                     privacyPolicyFragment = new PrivacyPolicyFragment();
                     transaction.replace(R.id.flNav, privacyPolicyFragment);
                     transaction.addToBackStack(null);
@@ -157,6 +158,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "Terms and Conditions", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_termsandcondition);
                     termsandConditionFragment = new TermsandConditionFragment();
                     transaction.replace(R.id.flNav, termsandConditionFragment);
                     transaction.addToBackStack(null);

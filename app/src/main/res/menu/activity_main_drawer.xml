@@ -40,11 +40,11 @@
                     android:icon="@drawable/ic_baseline_import_contacts_24"
                     android:title="Terms and condition">
 
-                </item>
-                <item
-                    android:id="@+id/nav_aboutus"
-                    android:icon="@drawable/ic_baseline_person_24"
-                    android:title="About Us">
+        </item>
+        <item
+            android:id="@+id/nav_aboutus"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="About Us">
 
         </item>
 
@@ -57,7 +57,9 @@
             android:title="Authenticate">
             <menu>
 
+
                 <item
+
                     android:id="@+id/nav_logOut"
                     android:icon="@drawable/ic_baseline_person_24"
                     android:title="Log Out">
@@ -66,4 +68,6 @@
             </menu>
         </item>
     </group>
+
+
 </menu>
