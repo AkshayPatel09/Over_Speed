@@ -123,7 +123,7 @@ public class EditProfileFragment extends Fragment {
                 Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
 
                 if(fName.getText().toString().length()==0 || lName.getText().toString().length()==0 || phone.getText().toString().length()==0){
-                    Toast.makeText(getActivity(), "Please fill all the fileds!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
                 }
                 else if(!phoneMatcher.matches()){
                     Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
@@ -145,6 +145,10 @@ public class EditProfileFragment extends Fragment {
                                     databaseReference.child(uId).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
                                         @Override
                                         public void onSuccess(Object o) {
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString(FIRSTNAME,fName.getText().toString());
+                                            editor.putString(LASTNAME,lName.getText().toString());
+                                            editor.putString(PHONE,phone.getText().toString());
                                             Toast.makeText(getActivity(),"Your Data is Successfully updated",Toast.LENGTH_SHORT).show();
                                         }
                                     });

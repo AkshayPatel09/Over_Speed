@@ -37,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     private ContactUsFragment contactUsFragment;
     private EditProfileFragment editProfileFragment;
     private AboutusFragment aboutusFragment;
+    private PrivacyPolicyFragment privacyPolicyFragment;
+    private TermsandConditionFragment termsandConditionFragment;
     private SharedPreferences sharedPreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String FIRSTNAME = "firstName";
@@ -132,6 +134,27 @@ public class HomeActivity extends AppCompatActivity {
                     drawer.closeDrawers();
 
                 }
+                else if(item.getItemId() == R.id.nav_privacypolicy)
+                {
+                    Toast.makeText(HomeActivity.this, "Privacy policy", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    privacyPolicyFragment = new PrivacyPolicyFragment();
+                    transaction.replace(R.id.flNav, privacyPolicyFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    drawer.closeDrawers();
+                }
+                else if(item.getItemId() == R.id.nav_termsandcondition)
+                {
+                    Toast.makeText(HomeActivity.this, "Terms and Conditions", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    termsandConditionFragment = new TermsandConditionFragment();
+                    transaction.replace(R.id.flNav, termsandConditionFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    drawer.closeDrawers();
+                }
+
                 else if(item.getItemId()==R.id.nav_logOut){
                     Toast.makeText(HomeActivity.this, "Logout!!", Toast.LENGTH_SHORT).show();
                     logOut();

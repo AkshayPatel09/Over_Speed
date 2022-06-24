@@ -28,4 +28,15 @@
         android:name="com.example.final_main.AboutusFragment"
         tools:layout="@layout/fragment_aboutus"
         />
+
+    <fragment
+        android:id="@+id/nav_privacypolicy"
+        android:name="com.example.final_main.PrivacyPolicyFragment"
+        tools:layout="@layout/fragment_privacy_policy"
+        />
+
+    <fragment
+        android:id="@+id/nav_termsandcondition"
+        android:name="com.example.final_main.TermsandConditionFragment"
+        tools:layout="@layout/fragment_termsand_condition"/>
 </navigation>
