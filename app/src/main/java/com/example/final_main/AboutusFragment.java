@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +26,7 @@ public class AboutusFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private EditText edt_about;
+    private TextView edt_about;
     public AboutusFragment() {
         // Required empty public constructor
     }

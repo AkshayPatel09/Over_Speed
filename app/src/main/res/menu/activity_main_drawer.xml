@@ -12,49 +12,49 @@
             android:id="@+id/nav_contactus"
             android:icon="@drawable/ic_baseline_contact_support_24"
             android:title="@string/contact_us" />
+        <item
+            android:icon="@drawable/ic_baseline_edit_24"
+            android:title="Edit profile"
+            android:id="@+id/nav_editprofile">
+
+        </item>
+        <item
+            android:id="@+id/changePassword"
+            android:icon="@drawable/ic_baseline_vpn_key_24"
+            android:title="Change Password">
+
+        </item>
+        <item
+            android:icon="@drawable/ic_baseline_notifications_24"
+            android:title="Notifications">
+
+        </item>
+        <item
+            android:icon="@drawable/ic_baseline_privacy_tip_24"
+            android:title="Privacy policy">
+
+        </item>
+        <item
+            android:icon="@drawable/ic_baseline_import_contacts_24"
+            android:title="Terms and condition">
+
+        </item>
+        <item
+            android:id="@+id/nav_aboutus"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="About Us">
+
+        </item>
 
 
     </group>
-    <group android:checkableBehavior="single">
+
+    <group android:checkableBehavior="single" >
         <item
-            android:id="@+id/nav_settings"
             android:icon="@drawable/ic_baseline_settings_24"
-            android:title="@string/settings">
+            android:title="Authenticate">
             <menu>
 
-                <item
-                    android:icon="@drawable/ic_baseline_edit_24"
-                    android:title="Edit profile"
-                    android:id="@+id/nav_editprofile">
-
-                </item>
-                <item
-                    android:id="@+id/changePassword"
-                    android:icon="@drawable/ic_baseline_vpn_key_24"
-                    android:title="Change Password">
-
-                </item>
-                <item
-                    android:icon="@drawable/ic_baseline_notifications_24"
-                    android:title="Notifications">
-
-                </item>
-                <item
-                    android:icon="@drawable/ic_baseline_privacy_tip_24"
-                    android:title="Privacy policy">
-
-                </item>
-                <item
-                    android:icon="@drawable/ic_baseline_import_contacts_24"
-                    android:title="Terms and condition">
-
-                </item>
-                <item
-                    android:id="@+id/nav_aboutus"
-                    android:icon="@drawable/ic_baseline_person_24"
-                    android:title="About Us">
-
-                </item>
                 <item
                     android:id="@+id/nav_logOut"
                     android:icon="@drawable/ic_baseline_person_24"
@@ -64,4 +64,6 @@
             </menu>
         </item>
     </group>
+
+
 </menu>
