@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -60,13 +61,13 @@ public class HomeActivity extends AppCompatActivity {
         String email = sharedPreferences.getString(EMAIL,"");
 
         setSupportActionBar(binding.appBarHome.toolbar);
-        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
@@ -87,6 +88,10 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        if(savedInstanceState==null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.flNav,new Historyfragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_history);
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -96,6 +101,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "History!!", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_history);
                     historyfragment = new Historyfragment();
                     transaction.replace(R.id.flNav, historyfragment);
                     transaction.addToBackStack(null);
@@ -106,6 +112,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_contactus);
                     contactUsFragment = new ContactUsFragment();
                     transaction.replace(R.id.flNav, contactUsFragment);
                     transaction.addToBackStack(null);
@@ -117,6 +124,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_editprofile);
                     editProfileFragment = new EditProfileFragment();
                     transaction.replace(R.id.flNav, editProfileFragment);
                     transaction.addToBackStack(null);
@@ -127,6 +135,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Toast.makeText(HomeActivity.this, "About us", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_aboutus);
                     aboutusFragment = new AboutusFragment();
                     transaction.replace(R.id.flNav, aboutusFragment);
                     transaction.addToBackStack(null);
@@ -163,6 +172,15 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 }
+                else if(item.getItemId()==R.id.changePassword){
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.changePassword);
+                    ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+                    transaction.replace(R.id.flNav, changePasswordFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    drawer.closeDrawers();
+                }
                 return false;
             }
         });
@@ -182,6 +200,18 @@ public class HomeActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id. drawer_layout ) ;
+        if (drawer.isDrawerOpen(GravityCompat. START )) {
+            drawer.closeDrawer(GravityCompat. START ) ;
+        } else {
+            super .onBackPressed() ;
+        }
+
+    }
+
     private void logOut(){
         SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
