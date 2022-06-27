@@ -48,7 +48,7 @@ public class LogInFragment extends Fragment {
     private EditText EdtPassword;
 
     private Button btnLogin;
-    private TextView NewAccount;
+    private TextView NewAccount,tv;
     private TextView forgetPassword;
     private SignUpFragment signUpFragment;
     private ForgetPasswordFragment forgetPasswordFragment;
@@ -108,6 +108,7 @@ public class LogInFragment extends Fragment {
          EdtPassword = view.findViewById(R.id.edt_pass);
          btnLogin = view.findViewById(R.id.login_btn);
          NewAccount = view.findViewById(R.id.new_acc);
+         tv = view.findViewById(R.id.textInputLayout8);
          firebaseDatabase = FirebaseDatabase.getInstance();
          databaseReference = firebaseDatabase.getReference("UserInfo");
          forgetPassword = view.findViewById(R.id.forget_pass);
@@ -170,6 +171,8 @@ public class LogInFragment extends Fragment {
                                      else{
                                          Toast.makeText(getActivity(), "Incorrect password", Toast.LENGTH_SHORT).show();
                                          EdtPassword.setError("Incorrect password!!");
+
+
                                      }
                                  }
                              } else{
