@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.nav_history);
                     historyfragment = new Historyfragment();
                     transaction.replace(R.id.flNav, historyfragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
                 }
@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.nav_contactus);
                     contactUsFragment = new ContactUsFragment();
                     transaction.replace(R.id.flNav, contactUsFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
 
@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.nav_editprofile);
                     editProfileFragment = new EditProfileFragment();
                     transaction.replace(R.id.flNav, editProfileFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
                 }
@@ -138,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.nav_aboutus);
                     aboutusFragment = new AboutusFragment();
                     transaction.replace(R.id.flNav, aboutusFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
 
@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.nav_privacypolicy);
                     privacyPolicyFragment = new PrivacyPolicyFragment();
                     transaction.replace(R.id.flNav, privacyPolicyFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
                 }
@@ -161,7 +161,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.nav_termsandcondition);
                     termsandConditionFragment = new TermsandConditionFragment();
                     transaction.replace(R.id.flNav, termsandConditionFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
                 }
@@ -172,6 +172,7 @@ public class HomeActivity extends AppCompatActivity {
                     drawer.closeDrawers();
                     Intent intent = new Intent(HomeActivity.this,MainActivity.class);
                     startActivity(intent);
+                    finish();
 
                 }
                 else if(item.getItemId()==R.id.changePassword){
@@ -179,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
                     navigationView.setCheckedItem(R.id.changePassword);
                     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
                     transaction.replace(R.id.flNav, changePasswordFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
                 }

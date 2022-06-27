@@ -8,35 +8,41 @@
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/activity_splash.xml" value="0.12360688956433637" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/app_bar_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/content_home.xml" value="0.12360688956433637" />
+        <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_aboutus.xml" value="0.12360688956433637" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_change_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_contact_us.xml" value="0.25416666666666665" />
+        <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_edit_profile.xml" value="0.12360688956433637" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_forget_password.xml" value="0.21331521739130435" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_gallery.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_historyfragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_home.xml" value="0.12360688956433637" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_landing.xml" value="0.2151268115942029" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_log_in.xml" value="0.25416666666666665" />
+        <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_settings.xml" value="0.12360688956433637" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_sign_up.xml" value="0.22735507246376813" />
+        <entry key="..\:/Iottive/final_main/app/src/main/res/layout/fragment_slideshow.xml" value="0.12360688956433637" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/layout/nav_header_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/menu/activity_main_drawer.xml" value="0.25416666666666665" />
         <entry key="..\:/Iottive/final_main/app/src/main/res/menu/home.xml" value="0.25416666666666665" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.1035" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.149" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/activity_home.xml" value="0.12360688956433637" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/activity_splash.xml" value="0.25416666666666665" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/content_home.xml" value="0.12360688956433637" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_aboutus.xml" value="0.25416666666666665" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_contact_us.xml" value="0.25416666666666665" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_edit_profile.xml" value="0.24010416666666667" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_historyfragment.xml" value="0.12360688956433637" />
+        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_home.xml" value="0.12360688956433637" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_landing.xml" value="0.11354166666666667" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_log_in.xml" value="0.25416666666666665" />
-<<<<<<<<< Temporary merge branch 1
-        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_sign_up.xml" value="0.25416666666666665" />
-=========
-        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_privacy_policy.xml" value="0.25416666666666665" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_sign_up.xml" value="0.25416666666666665" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_slideshow.xml" value="0.176" />
-        <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/fragment_termsand_condition.xml" value="0.25416666666666665" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/layout/nav_header_home.xml" value="0.12360688956433637" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/menu/activity_main_drawer.xml" value="0.25025641025641027" />
         <entry key="..\:/sem7/internship/project_final/app/src/main/res/menu/home.xml" value="0.25416666666666665" />
->>>>>>>>> Temporary merge branch 2
       </map>
     </option>
   </component>

@@ -1,6 +1,7 @@
 package com.example.final_main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -149,7 +150,11 @@ public class EditProfileFragment extends Fragment {
                                             editor.putString(FIRSTNAME,fName.getText().toString());
                                             editor.putString(LASTNAME,lName.getText().toString());
                                             editor.putString(PHONE,phone.getText().toString());
+                                            editor.commit();
                                             Toast.makeText(getActivity(),"Your Data is Successfully updated",Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(),HomeActivity.class);
+                                            startActivity(intent);
+                                            getActivity().finish();
                                         }
                                     });
 

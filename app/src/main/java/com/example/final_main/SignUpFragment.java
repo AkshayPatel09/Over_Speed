@@ -109,7 +109,7 @@ public class SignUpFragment extends Fragment {
                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 lif = new LogInFragment();
                 transaction.replace(R.id.flMain, lif);
-                transaction.addToBackStack(null);
+//                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
