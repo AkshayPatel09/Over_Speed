@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 //        suf = new SignUpFragment();
         transaction.replace(R.id.flMain, lif);
 //        transaction.replace(R.id.flMain, suf);
-        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //            suf = new SignUpFragment();
             transaction.replace(R.id.flMain, lif);
 //            transaction.replace(R.id.flMain, suf);
-            transaction.addToBackStack(null);
+//            transaction.addToBackStack(null);
             transaction.commit();
         }
     }

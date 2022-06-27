@@ -1,14 +1,35 @@
 package com.example.final_main;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.final_main.databinding.ActivityHomeBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -28,6 +49,7 @@ public class Historyfragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private ActivityHomeBinding binding;
+
 
     public Historyfragment() {
         // Required empty public constructor
@@ -67,16 +89,17 @@ public class Historyfragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_historyfragment, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab);
 
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                LocationFragment locationFragment = new LocationFragment();
+                transaction.replace(R.id.flNav, locationFragment).commit();
             }
         });
 
         return view;
     }
+
+
 }

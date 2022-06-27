@@ -35,18 +35,21 @@
 
     <fragment
         android:id="@+id/nav_aboutus"
+        android:label="About us"
         android:name="com.example.final_main.AboutusFragment"
         tools:layout="@layout/fragment_aboutus"
         />
 
     <fragment
         android:id="@+id/nav_privacypolicy"
+        android:label="Privacy"
         android:name="com.example.final_main.PrivacyPolicyFragment"
         tools:layout="@layout/fragment_privacy_policy"
         />
 
     <fragment
         android:id="@+id/nav_termsandcondition"
+        android:label="Terms and condition"
         android:name="com.example.final_main.TermsandConditionFragment"
         tools:layout="@layout/fragment_termsand_condition"/>
 </navigation>

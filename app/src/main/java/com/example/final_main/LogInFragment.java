@@ -121,7 +121,7 @@ public class LogInFragment extends Fragment {
                  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                  signUpFragment = new SignUpFragment();
                  transaction.replace(R.id.flMain, signUpFragment);
-                 transaction.addToBackStack(null);
+//                 transaction.addToBackStack(null);
                  transaction.commit();
              }
          });
@@ -132,7 +132,7 @@ public class LogInFragment extends Fragment {
                  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                  forgetPasswordFragment = new ForgetPasswordFragment();
                  transaction.replace(R.id.flMain, forgetPasswordFragment);
-                 transaction.addToBackStack(null);
+//                 transaction.addToBackStack(null);
                  transaction.commit();
              }
          });
@@ -166,6 +166,7 @@ public class LogInFragment extends Fragment {
                                          Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
                                          Intent intent = new Intent(getActivity(),HomeActivity.class);
                                          startActivity(intent);
+                                         getActivity().finish();
                                      }
                                      else{
                                          Toast.makeText(getActivity(), "Incorrect password", Toast.LENGTH_SHORT).show();
