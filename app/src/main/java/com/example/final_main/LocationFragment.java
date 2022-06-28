@@ -1,17 +1,24 @@
 package com.example.final_main;
 
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -27,6 +34,13 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -48,7 +62,9 @@ public class LocationFragment extends Fragment {
 
     FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
-    private AppCompatTextView lat,log;
+    private AppCompatTextView lat, log, speed;
+    private GoogleMap gMap;
+    private Marker marker;
 
     public LocationFragment() {
         // Required empty public constructor
@@ -89,11 +105,26 @@ public class LocationFragment extends Fragment {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         lat = view.findViewById(R.id.lat);
         log = view.findViewById(R.id.log);
-//        Toast.makeText(getActivity(), ".....", Toast.LENGTH_SHORT).show();
+        speed = view.findViewById(R.id.speed);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        SupportMapFragment supportMapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                gMap = googleMap;
+
+            }
+        });
         getLastLocation();
-//        Toast.makeText(getActivity(), "//////", Toast.LENGTH_SHORT).show();
+
         return view;
     }
+
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         // check if permissions are given
@@ -145,11 +176,11 @@ public class LocationFragment extends Fragment {
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(5000);
         mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setNumUpdates(5);
+//        mLocationRequest.setNumUpdates(5);
+        mLocationRequest.setNumUpdates(Integer.MAX_VALUE);
 
         // setting LocationRequest
         // on FusedLocationClient
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
     }
@@ -159,9 +190,28 @@ public class LocationFragment extends Fragment {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-            Toast.makeText(getActivity(), "/////", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "/////", Toast.LENGTH_SHORT).show();
+            LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng);
+            if (marker == null) {
+                marker = gMap.addMarker(markerOptions);
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+            } else {
+                marker.setPosition(latLng);
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+            }
+
             lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
             log.setText("Longitude: " + mLastLocation.getLongitude() + "");
+            speed.setText(Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
+            if ((int) mLastLocation.getSpeed() >= -1) {
+                Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
+                addNotification();
+            }
+
         }
     };
 
@@ -185,10 +235,9 @@ public class LocationFragment extends Fragment {
     // method to check
     // if location is enabled
     private boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
-
 
 
     // If everything is alright then
@@ -210,5 +259,17 @@ public class LocationFragment extends Fragment {
         if (checkPermissions()) {
             getLastLocation();
         }
+    }
+
+    private void addNotification() {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getActivity(), "My Notification")
+                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                        .setContentTitle("Go Slow!!")
+                        .setContentText("You are over speeding!!").setAutoCancel(true);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getActivity());
+        managerCompat.notify(1, builder.build());
+
     }
 }

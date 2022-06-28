@@ -49,5 +49,6 @@
     <string name="enterNewPassword">Enter New Password</string>
     <string name="enterOldPassword">Enter Old Password</string>
     <string name="apply_changes">Apply Changes</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>
