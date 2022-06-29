@@ -64,6 +64,7 @@ public class LogInFragment extends Fragment {
     public static final String PHONE = "phone";
     public static final String PASSWORD = "password";
     public static final String ISLOGGEDIN = "isLoggedIn";
+    public static final String NOTIFICATION = "notification";
     SharedPreferences sharedpreferences;
 
     public LogInFragment() {
@@ -108,7 +109,7 @@ public class LogInFragment extends Fragment {
          EdtPassword = view.findViewById(R.id.edt_pass);
          btnLogin = view.findViewById(R.id.login_btn);
          NewAccount = view.findViewById(R.id.new_acc);
-         tv = view.findViewById(R.id.textInputLayout8);
+//         tv = view.findViewById(R.id.textInputLayout8);
          firebaseDatabase = FirebaseDatabase.getInstance();
          databaseReference = firebaseDatabase.getReference("UserInfo");
          forgetPassword = view.findViewById(R.id.forget_pass);
@@ -163,6 +164,7 @@ public class LogInFragment extends Fragment {
                                          editor.putString(PHONE,(String) messageSnapshot.child("phone").getValue());
                                          editor.putString(PASSWORD,dbPassword);
                                          editor.putString(ISLOGGEDIN,"true");
+                                         editor.putString(NOTIFICATION,"false");
                                          editor.commit();
                                          Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
                                          Intent intent = new Intent(getActivity(),HomeActivity.class);

@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -38,6 +40,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -60,12 +63,16 @@ public class LocationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    FusedLocationProviderClient mFusedLocationClient;
+    private FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
     private AppCompatTextView lat, log, speed;
 
     private GoogleMap gMap;
     private Marker marker;
+    private SharedPreferences sharedPreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String NOTIFICATION = "notification";
+    private String notification;
 
     public LocationFragment() {
         // Required empty public constructor
@@ -107,6 +114,8 @@ public class LocationFragment extends Fragment {
         lat = view.findViewById(R.id.lat);
         log = view.findViewById(R.id.log);
         speed = view.findViewById(R.id.speed);
+        sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
+        notification = sharedPreferences.getString(NOTIFICATION,"");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
@@ -197,6 +206,7 @@ public class LocationFragment extends Fragment {
             MarkerOptions markerOptions = new MarkerOptions().position(latLng);
             if (marker == null) {
                 marker = gMap.addMarker(markerOptions);
+//                marker.setIcon(BitmapDescriptorFactory.f);
                 gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
             } else {
@@ -208,8 +218,8 @@ public class LocationFragment extends Fragment {
             lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
             log.setText("Longitude: " + mLastLocation.getLongitude() + "");
             speed.setText(Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
-            if ((int) mLastLocation.getSpeed() >= 15) {
-                Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
+            if ((int) mLastLocation.getSpeed() >= 15 && notification.equals("true")) {
+//                Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
                 addNotification();
             }
 

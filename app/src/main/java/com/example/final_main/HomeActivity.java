@@ -184,6 +184,14 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.commit();
                     drawer.closeDrawers();
                 }
+                else if(item.getItemId()==R.id.nav_notification){
+                    FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
+                    navigationView.setCheckedItem(R.id.nav_notification);
+                    NotificationFragment notificationFragment = new NotificationFragment();
+                    transaction.replace(R.id.flNav,notificationFragment);
+                    transaction.commit();
+                    drawer.closeDrawers();
+                }
                 return false;
             }
         });
