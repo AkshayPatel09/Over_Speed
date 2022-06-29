@@ -50,6 +50,7 @@
         android:layout_marginTop="30dp"
         app:boxStrokeColor="@color/blue"
         app:hintTextColor="@color/blue"
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2">
@@ -74,9 +75,10 @@
         android:layout_marginTop="30dp"
         app:boxStrokeColor="@color/blue"
         app:hintTextColor="@color/blue"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
         app:passwordToggleDrawable="@drawable/ic_baseline_show_password"
         app:passwordToggleEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
         tools:layout_editor_absoluteX="50dp">
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -87,6 +89,9 @@
             android:inputType="textPassword"
             android:textColor="@color/black"
             android:textStyle="bold" />
+            <!--android:drawableLeft="@drawable/ic_baseline_vpn_key_24_1"
+            android:drawablePadding="5dp"-->
+
 
     </com.google.android.material.textfield.TextInputLayout>
 

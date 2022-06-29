@@ -63,6 +63,7 @@ public class LocationFragment extends Fragment {
     FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
     private AppCompatTextView lat, log, speed;
+
     private GoogleMap gMap;
     private Marker marker;
 
@@ -207,7 +208,7 @@ public class LocationFragment extends Fragment {
             lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
             log.setText("Longitude: " + mLastLocation.getLongitude() + "");
             speed.setText(Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
-            if ((int) mLastLocation.getSpeed() >= -1) {
+            if ((int) mLastLocation.getSpeed() >= 15) {
                 Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
                 addNotification();
             }

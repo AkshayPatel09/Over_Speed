@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.186" />
+        app:layout_constraintVertical_bias="0.173" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout13"
@@ -33,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_person_24"
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView8"
         app:layout_constraintVertical_bias="0.164">
 
@@ -62,6 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_person_24"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout13"
         app:layout_constraintVertical_bias="0.0">
 
@@ -90,6 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.646"
         app:layout_constraintStart_toStartOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_phone_24"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout14"
         app:layout_constraintVertical_bias="0.024">
 

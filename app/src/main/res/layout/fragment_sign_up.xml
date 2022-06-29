@@ -53,6 +53,7 @@
             android:layout_marginTop="30dp"
             app:boxStrokeColor="@color/blue"
             app:hintTextColor="@color/blue"
+            app:startIconDrawable="@drawable/ic_baseline_person_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2">
@@ -79,6 +80,7 @@
             android:layout_marginTop="20dp"
             app:boxStrokeColor="@color/blue"
             app:hintTextColor="@color/blue"
+            app:startIconDrawable="@drawable/ic_baseline_person_24"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
             tools:layout_editor_absoluteX="50dp">
 
@@ -103,6 +105,7 @@
             android:layout_marginTop="20dp"
             app:boxStrokeColor="@color/blue"
             app:hintTextColor="@color/blue"
+            app:startIconDrawable="@drawable/ic_baseline_email_24"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
             tools:layout_editor_absoluteX="50dp">
 
@@ -129,6 +132,7 @@
             app:hintTextColor="@color/blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/ic_baseline_phone_24"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
             app:passwordToggleEnabled="false">
 
@@ -156,6 +160,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24"
             app:passwordToggleDrawable="@drawable/ic_baseline_show_password"
             app:passwordToggleEnabled="true">
 
@@ -183,6 +188,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24"
             app:passwordToggleDrawable="@drawable/ic_baseline_show_password"
             app:passwordToggleEnabled="true">
 
