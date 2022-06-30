@@ -94,7 +94,7 @@ public class Historyfragment extends Fragment {
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 LocationFragment locationFragment = new LocationFragment();
-                transaction.replace(R.id.flNav, locationFragment).commit();
+                transaction.replace(R.id.flNav, locationFragment).addToBackStack("History").commit();
             }
         });
 

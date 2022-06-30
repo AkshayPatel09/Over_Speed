@@ -5,7 +5,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,14 +15,14 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -40,12 +39,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,25 +51,54 @@ import com.google.android.gms.tasks.Task;
  */
 public class LocationFragment extends Fragment {
 
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String NOTIFICATION = "notification";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    int PERMISSION_ID = 44;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private FusedLocationProviderClient mFusedLocationClient;
-    int PERMISSION_ID = 44;
     private AppCompatTextView lat, log, speed;
-
     private GoogleMap gMap;
     private Marker marker;
     private SharedPreferences sharedPreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String NOTIFICATION = "notification";
     private String notification;
+    private MaterialButton stopTracking;
+    private LocationCallback mLocationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+//            Toast.makeText(getActivity(), "/////", Toast.LENGTH_SHORT).show();
+            LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng);
+            if (marker == null) {
+                marker = gMap.addMarker(markerOptions);
+//                marker.setIcon(BitmapDescriptorFactory.f);
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+            } else {
+                marker.setPosition(latLng);
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+            }
+
+            lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
+            log.setText("Longitude: " + mLastLocation.getLongitude() + "");
+            speed.setText(Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
+            Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
+            if ((int) mLastLocation.getSpeed() >= 15 && notification.equals("true")) {
+
+                addNotification();
+            }
+
+        }
+    };
 
     public LocationFragment() {
         // Required empty public constructor
@@ -114,8 +140,9 @@ public class LocationFragment extends Fragment {
         lat = view.findViewById(R.id.lat);
         log = view.findViewById(R.id.log);
         speed = view.findViewById(R.id.speed);
-        sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
-        notification = sharedPreferences.getString(NOTIFICATION,"");
+        stopTracking = view.findViewById(R.id.stopTracking);
+        sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        notification = sharedPreferences.getString(NOTIFICATION, "");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
@@ -132,7 +159,27 @@ public class LocationFragment extends Fragment {
         });
         getLastLocation();
 
+        stopTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDestroy();
+
+                FragmentManager transaction = getActivity().getSupportFragmentManager();
+                transaction.popBackStack();
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates(){
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
     @SuppressLint("MissingPermission")
@@ -195,37 +242,6 @@ public class LocationFragment extends Fragment {
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
     }
 
-    private LocationCallback mLocationCallback = new LocationCallback() {
-
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            Location mLastLocation = locationResult.getLastLocation();
-//            Toast.makeText(getActivity(), "/////", Toast.LENGTH_SHORT).show();
-            LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng);
-            if (marker == null) {
-                marker = gMap.addMarker(markerOptions);
-//                marker.setIcon(BitmapDescriptorFactory.f);
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
-            } else {
-                marker.setPosition(latLng);
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
-            }
-
-            lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
-            log.setText("Longitude: " + mLastLocation.getLongitude() + "");
-            speed.setText(Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
-            if ((int) mLastLocation.getSpeed() >= 15 && notification.equals("true")) {
-//                Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
-                addNotification();
-            }
-
-        }
-    };
-
     // method to check for permissions
     private boolean checkPermissions() {
         return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -271,6 +287,7 @@ public class LocationFragment extends Fragment {
             getLastLocation();
         }
     }
+
 
     private void addNotification() {
         NotificationCompat.Builder builder =
