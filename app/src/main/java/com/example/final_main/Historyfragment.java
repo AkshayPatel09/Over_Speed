@@ -88,7 +88,6 @@ public class Historyfragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_historyfragment, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
