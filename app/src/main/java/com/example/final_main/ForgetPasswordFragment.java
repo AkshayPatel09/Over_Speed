@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -120,8 +121,13 @@ public class ForgetPasswordFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(email.getText().toString())) {
-                    Toast.makeText(getActivity(), "Please enter email!!", Toast.LENGTH_SHORT).show();
-                    email.setError("Please enter email!!");
+                    //Toast.makeText(getActivity(), "Please enter email!!", Toast.LENGTH_SHORT).show();
+                    //email.setError("Please enter email!!");
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Empty Field !!")
+                            .setMessage("Please enter email.")
+                            .show();
                 } else {
                     Query query = databaseReference.orderByChild("email").equalTo(email.getText().toString());
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -141,13 +147,23 @@ public class ForgetPasswordFragment extends Fragment {
 
 
                                     }else if(!dbPhone.equals(phone.getText().toString())){
-                                        Toast.makeText(getActivity(), "Phone number is not correct!!", Toast.LENGTH_SHORT).show();
-                                        phone.setError("Phone number is not correct!!");
+                                        //Toast.makeText(getActivity(), "Phone number is not correct!!", Toast.LENGTH_SHORT).show();
+                                        //phone.setError("Phone number is not correct!!");
+                                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setTitle("Incorrect Phone !!")
+                                                .setMessage("Please enter a registered phone.")
+                                                .show();
                                     }
 
                                 }
                             } else {
-                                Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Account Doesn't Exists !!")
+                                        .setMessage("Enter verified Email.")
+                                        .show();
                             }
                         }
 
@@ -167,7 +183,12 @@ public class ForgetPasswordFragment extends Fragment {
                 if (TextUtils.isEmpty(otp.getText().toString())) {
                     // if the OTP text field is empty display
                     // a message to user to enter OTP
-                    Toast.makeText(getActivity(), "Please enter OTP", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Please enter OTP", Toast.LENGTH_SHORT).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("OTP !!")
+                            .setMessage("Please enter it.")
+                            .show();
                 } else {
                     // if OTP field is not empty calling
                     // method to verify the OTP.

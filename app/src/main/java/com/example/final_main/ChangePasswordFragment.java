@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -110,15 +111,35 @@ public class ChangePasswordFragment extends Fragment {
                 Pattern patternPassword= Pattern.compile(regexPassword);
                 Matcher passwordMatcher = patternPassword.matcher(newPassword.getText().toString());
                 if(TextUtils.isEmpty(oldPassword.getText().toString()) || TextUtils.isEmpty(newPassword.getText().toString()) || TextUtils.isEmpty(confirmNewPassword.getText().toString())){
-                    Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Empty Fields !!")
+                            .setMessage("Please fill all the fields.")
+                            .show();
                 }else if(!oldPassword.getText().toString().equals(curPassword)){
-                    Toast.makeText(getActivity(), "Old Password is incorrect!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Old Password is incorrect!!", Toast.LENGTH_SHORT).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Old Password !!")
+                            .setMessage("It is incorrect.")
+                            .show();
                 }else if(!passwordMatcher.matches()){
-                    Toast.makeText(getActivity(), "Password format is incorrect!!", Toast.LENGTH_SHORT).show();
-                    newPassword.setError("Password format is incorrect!!");
+                    //Toast.makeText(getActivity(), "Password format is incorrect!!", Toast.LENGTH_SHORT).show();
+                    //newPassword.setError("Password format is incorrect!!");
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Incorrect Password !!")
+                            .setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
+                            .show();
                 }else if(!newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
-                    Toast.makeText(getActivity(), "Confirm Password is not matching!!", Toast.LENGTH_SHORT).show();
-                    confirmNewPassword.setError("Confirm Password is not matching!!");
+                    //Toast.makeText(getActivity(), "Confirm Password is not matching!!", Toast.LENGTH_SHORT).show();
+                    //confirmNewPassword.setError("Confirm Password is not matching!!");
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Incorrect Password !!")
+                            .setMessage("Confirm Password doesn't match.")
+                            .show();
                 }else{
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(PASSWORD,newPassword.getText().toString());
@@ -145,7 +166,12 @@ public class ChangePasswordFragment extends Fragment {
                                     });
                                 }
                             } else{
-                                Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Account Doesn't Exists !!")
+                                        .setMessage("Enter verified Email.")
+                                        .show();
                             }
                         }
 
