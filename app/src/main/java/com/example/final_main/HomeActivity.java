@@ -61,6 +61,8 @@ public class HomeActivity extends AppCompatActivity {
         String email = sharedPreferences.getString(EMAIL,"");
 
         setSupportActionBar(binding.appBarHome.toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setTitle("your title");
 //        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -99,6 +101,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.nav_history)
                 {
+
                     Toast.makeText(HomeActivity.this, "History!!", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_history);
@@ -110,6 +113,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_contactus)
                 {
+                    //getSupportActionBar().setTitle("your");
                     Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_contactus);

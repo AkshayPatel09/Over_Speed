@@ -92,7 +92,6 @@
             <!--android:drawableLeft="@drawable/ic_baseline_vpn_key_24_1"
             android:drawablePadding="5dp"-->
 
-
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -118,9 +117,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="50dp"
-        android:background="@color/blue"
+        android:background="@drawable/btn_shape"
         android:imeOptions="actionDone"
-        android:text="Login"
+        android:text="Log in"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="20sp"

@@ -93,7 +93,7 @@ public class LocationFragment extends Fragment {
 
             lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
             log.setText("Longitude: " + mLastLocation.getLongitude() + "");
-            speed.setText(Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
+            speed.setText("Speed: " + Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
             Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
             if ((int) mLastLocation.getSpeed() >= 15 && notification.equals("true")) {
 
