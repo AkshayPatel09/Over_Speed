@@ -65,6 +65,7 @@ public class LogInFragment extends Fragment {
     public static final String PASSWORD = "password";
     public static final String ISLOGGEDIN = "isLoggedIn";
     public static final String NOTIFICATION = "notification";
+    public static final String KEY = "key";
     SharedPreferences sharedpreferences;
 
     public LogInFragment() {
@@ -157,7 +158,7 @@ public class LogInFragment extends Fragment {
 
                                          sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
                                          SharedPreferences.Editor editor = sharedpreferences.edit();
-
+                                         editor.putString(KEY,(String) messageSnapshot.getKey());
                                          editor.putString(FIRSTNAME,(String) messageSnapshot.child("firstName").getValue() );
                                          editor.putString(LASTNAME,(String) messageSnapshot.child("lastName").getValue() );
                                          editor.putString(EMAIL,(String) messageSnapshot.child("email").getValue() );

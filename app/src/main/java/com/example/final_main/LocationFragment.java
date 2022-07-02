@@ -2,12 +2,12 @@ package com.example.final_main;
 
 
 import static android.content.Context.LOCATION_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,17 +17,17 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +45,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,8 +82,13 @@ public class LocationFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String notification;
     private MaterialButton stopTracking;
+    private boolean notificationFlag=false;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private HistoryData historyData;
     private LocationCallback mLocationCallback = new LocationCallback() {
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
@@ -94,13 +110,42 @@ public class LocationFragment extends Fragment {
             lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
             log.setText("Longitude: " + mLastLocation.getLongitude() + "");
             speed.setText("Speed: " + Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
-            Toast.makeText(getActivity(), "......", Toast.LENGTH_SHORT).show();
-            if ((int) mLastLocation.getSpeed() >= 15 && notification.equals("true")) {
+//            Toast.makeText(getActivity(), notification, Toast.LENGTH_SHORT).show();
 
+            if ((int) mLastLocation.getSpeed() >= 0  && notification.equals("true") && notificationFlag==false) {
+                historyData = new HistoryData();
+                historyData.setYourSpeed(Integer.toString((int) mLastLocation.getSpeed()));
+                historyData.setSpeedLimit(Integer.toString(40));
+                historyData.setLatitude(Double.toString(mLastLocation.getLatitude()));
+                historyData.setLongitude(Double.toString(mLastLocation.getLongitude()));
+                historyData.setDate(java.time.LocalDate.now().toString());
+                SimpleDateFormat sd = new SimpleDateFormat("HH:mm:ss z");
+                Date date = new Date();
+                historyData.setTime(sd.format(date));
+                sd.setTimeZone(TimeZone.getTimeZone("IST"));
+                notificationFlag=true;
                 addNotification();
+                addDataToFireBase(historyData,sharedPreferences.getString(LogInFragment.KEY,""));
+                Toast.makeText(getActivity(), "data saved!!", Toast.LENGTH_SHORT).show();
+            }else if((int) mLastLocation.getSpeed() >= 0  && notification.equals("false") && notificationFlag==false){
+                historyData = new HistoryData();
+                historyData.setYourSpeed(Integer.toString((int) mLastLocation.getSpeed()));
+                historyData.setSpeedLimit(Integer.toString(40));
+                historyData.setLatitude(Double.toString(mLastLocation.getLatitude()));
+                historyData.setLongitude(Double.toString(mLastLocation.getLongitude()));
+                historyData.setDate(java.time.LocalDate.now().toString());
+                SimpleDateFormat sd = new SimpleDateFormat("HH:mm:ss z");
+                Date date = new Date();
+                historyData.setTime(sd.format(date));
+                sd.setTimeZone(TimeZone.getTimeZone("IST"));
+                notificationFlag=true;
+                addDataToFireBase(historyData,sharedPreferences.getString(LogInFragment.KEY,""));
+                Toast.makeText(getActivity(), "data saved!!", Toast.LENGTH_SHORT).show();
             }
+
         }
     };
+
 
     public LocationFragment() {
         // Required empty public constructor
@@ -143,7 +188,9 @@ public class LocationFragment extends Fragment {
         log = view.findViewById(R.id.log);
         speed = view.findViewById(R.id.speed);
         stopTracking = view.findViewById(R.id.stopTracking);
-        sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("HistoryArr");
+        sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         notification = sharedPreferences.getString(NOTIFICATION, "");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -165,13 +212,39 @@ public class LocationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onDestroy();
-
                 FragmentManager transaction = getActivity().getSupportFragmentManager();
                 transaction.popBackStack();
             }
         });
 
         return view;
+    }
+
+    private void addDataToFireBase(HistoryData historyData, String key) {
+
+        databaseReference.child(key).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    List<HistoryData> x = (List<HistoryData>) task.getResult().getValue();
+                    if(x==null){
+                        List<HistoryData> historyArr = new ArrayList<HistoryData>();
+                        historyArr.add(historyData);
+                        databaseReference.child(key).setValue(historyArr);
+                    }else {
+                        x.add(historyData);
+                        databaseReference.child(key).setValue(x);
+                    }
+
+                    Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+        Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
     }
 
     @Override

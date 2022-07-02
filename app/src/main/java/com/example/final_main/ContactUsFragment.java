@@ -2,8 +2,10 @@ package com.example.final_main;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -86,6 +88,7 @@ public class ContactUsFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         submitFeedbackBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(message.getText().toString())){
