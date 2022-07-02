@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -124,11 +125,21 @@ public class EditProfileFragment extends Fragment {
                 Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
 
                 if(fName.getText().toString().length()==0 || lName.getText().toString().length()==0 || phone.getText().toString().length()==0){
-                    Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Empty Fields !!")
+                            .setMessage("Please fill all the fields.")
+                            .show();
                 }
                 else if(!phoneMatcher.matches()){
-                    Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
-                    phone.setError("Phone number format is incorrect!!");
+                    //Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
+                    //phone.setError("Phone number format is incorrect!!");
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Phone format is Incorrect !!")
+                            .setMessage("Enter a valid phone number.")
+                            .show();
                 }
                 else
                 {

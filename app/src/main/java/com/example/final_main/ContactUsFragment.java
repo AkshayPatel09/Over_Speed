@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -92,8 +93,13 @@ public class ContactUsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(message.getText().toString())){
-                    Toast.makeText(getActivity(), "Please enter your message!!", Toast.LENGTH_SHORT).show();
-                    message.setError("Please enter your message!!");
+                    //Toast.makeText(getActivity(), "Please enter your message!!", Toast.LENGTH_SHORT).show();
+                    //message.setError("Please enter your message!!");
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Empty field!!")
+                            .setMessage("Please enter your message.")
+                            .show();
                 }
                 else{
                     addDataToFirebase(message.getText().toString(),java.time.LocalDate.now().toString(),sharedPreferences.getString(EMAIL,""));

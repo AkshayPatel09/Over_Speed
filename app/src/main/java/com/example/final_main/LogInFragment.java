@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -144,7 +145,12 @@ public class LogInFragment extends Fragment {
              @Override
              public void onClick(View v) {
                  if(TextUtils.isEmpty(EdtEmail.getText().toString()) || TextUtils.isEmpty(EdtPassword.getText().toString())){
-                     Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                     //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                             .setIcon(android.R.drawable.ic_dialog_alert)
+                             .setTitle("Empty Fields !!")
+                             .setMessage("Please fill all the fields.")
+                             .show();
                  }
                  else{
                      Query query = databaseReference.orderByChild("email").equalTo(EdtEmail.getText().toString());
@@ -173,14 +179,24 @@ public class LogInFragment extends Fragment {
                                          getActivity().finish();
                                      }
                                      else{
-                                         Toast.makeText(getActivity(), "Incorrect password", Toast.LENGTH_SHORT).show();
-                                         EdtPassword.setError("Incorrect password!!");
+                                         //Toast.makeText(getActivity(), "Incorrect Password", Toast.LENGTH_SHORT).show();
+                                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                                 .setIcon(android.R.drawable.ic_dialog_alert)
+                                                 .setTitle("Incorrect Password !!")
+                                                 .setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
+                                                 .show();
+                                         //EdtPassword.setError("Incorrect password!!");
 
 
                                      }
                                  }
                              } else{
-                                 Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                 //Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                         .setIcon(android.R.drawable.ic_dialog_alert)
+                                         .setTitle("Account Doesn't Exists !!")
+                                         .setMessage("Enter verified Email.")
+                                         .show();
                              }
                          }
 
