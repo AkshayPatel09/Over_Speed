@@ -2,7 +2,7 @@ package com.example.final_main;
 
 public class HistoryData {
 
-    private String date,time,latitude,longitude,speedLimit,yourSpeed;
+    public String date,time,latitude,longitude,speedLimit,yourSpeed;
     public HistoryData(){}
 
     public void setDate(String date){
