@@ -39,8 +39,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
-
-        android:tint="@color/white"
+        app:tint="@color/white"
         app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
