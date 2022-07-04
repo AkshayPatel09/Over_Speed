@@ -62,7 +62,7 @@ public class PrivacyPolicyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_privacy_policy, container, false);
+        View v = inflater.inflate(R.layout.fragment_privacy_policy, container, false);
         edtprivacy = v.findViewById(R.id.privacypolicy);
 
         edtprivacy.setText("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +

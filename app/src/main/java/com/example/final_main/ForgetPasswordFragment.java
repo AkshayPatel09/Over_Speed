@@ -53,14 +53,14 @@ public class ForgetPasswordFragment extends Fragment {
     private String mParam2;
 
 
-    private TextView email,phone,otp;
-    private Button sendOTP,verifyBtn;
+    private TextView email, phone, otp;
+    private Button sendOTP, verifyBtn;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
     private FirebaseAuth mAuth;
     private String verify;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String FIRSTNAME = "firstName";
     public static final String LASTNAME = "lastName";
     public static final String EMAIL = "email";
@@ -68,7 +68,7 @@ public class ForgetPasswordFragment extends Fragment {
     public static final String ISLOGGEDIN = "isLoggedIn";
     SharedPreferences sharedpreferences;
 
-    String dbEmail,dbPhone,dbFirstName,dbLastName;
+    String dbEmail, dbPhone, dbFirstName, dbLastName;
 
     public ForgetPasswordFragment() {
         // Required empty public constructor
@@ -143,10 +143,10 @@ public class ForgetPasswordFragment extends Fragment {
 
                                     if (dbEmail.equals(email.getText().toString()) && dbPhone.equals(phone.getText().toString())) {
 
-                                        sendVerificationCode("+91"+dbPhone);
+                                        sendVerificationCode("+91" + dbPhone);
 
 
-                                    }else if(!dbPhone.equals(phone.getText().toString())){
+                                    } else if (!dbPhone.equals(phone.getText().toString())) {
                                         //Toast.makeText(getActivity(), "Phone number is not correct!!", Toast.LENGTH_SHORT).show();
                                         //phone.setError("Phone number is not correct!!");
                                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -199,6 +199,7 @@ public class ForgetPasswordFragment extends Fragment {
 
         return v;
     }
+
     private void sendVerificationCode(String number) {
         // this method is used for getting
         // OTP on user phone number.
@@ -211,6 +212,7 @@ public class ForgetPasswordFragment extends Fragment {
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
             // initializing our callbacks for on
@@ -271,6 +273,7 @@ public class ForgetPasswordFragment extends Fragment {
         // calling sign in method.
         signInWithCredential(credential);
     }
+
     private void signInWithCredential(PhoneAuthCredential credential) {
         // inside this method we are checking if
         // the code entered is correct or not.
@@ -293,14 +296,15 @@ public class ForgetPasswordFragment extends Fragment {
                     }
                 });
     }
-    private void saveData(){
+
+    private void saveData() {
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(FIRSTNAME,dbFirstName);
-        editor.putString(LASTNAME,dbLastName);
-        editor.putString(EMAIL,dbEmail);
-        editor.putString(PHONE,dbPhone);
-        editor.putString(ISLOGGEDIN,"true");
+        editor.putString(FIRSTNAME, dbFirstName);
+        editor.putString(LASTNAME, dbLastName);
+        editor.putString(EMAIL, dbEmail);
+        editor.putString(PHONE, dbPhone);
+        editor.putString(ISLOGGEDIN, "true");
         editor.commit();
     }
 }

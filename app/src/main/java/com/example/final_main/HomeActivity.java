@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     private PrivacyPolicyFragment privacyPolicyFragment;
     private TermsandConditionFragment termsandConditionFragment;
     private SharedPreferences sharedPreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String FIRSTNAME = "firstName";
     public static final String LASTNAME = "lastName";
     public static final String EMAIL = "email";
@@ -54,11 +54,11 @@ public class HomeActivity extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        sharedPreferences = getSharedPreferences(MyPREFERENCES,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
 
-        String firstName = sharedPreferences.getString(FIRSTNAME,"");
-        String lastName = sharedPreferences.getString(LASTNAME,"");
-        String email = sharedPreferences.getString(EMAIL,"");
+        String firstName = sharedPreferences.getString(FIRSTNAME, "");
+        String lastName = sharedPreferences.getString(LASTNAME, "");
+        String email = sharedPreferences.getString(EMAIL, "");
 
         setSupportActionBar(binding.appBarHome.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -71,19 +71,20 @@ public class HomeActivity extends AppCompatActivity {
         TextView userName = headerView.findViewById(R.id.userName);
         TextView userEmail = headerView.findViewById(R.id.userEmail);
         // set user name and email
-        userName.setText(firstName+" "+lastName);
+        userName.setText(firstName + " " + lastName);
         userEmail.setText(email);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_history, R.id.nav_settings, R.id.nav_contactus)
+                R.id.nav_history, R.id.nav_contactus,R.id.nav_termsandcondition,R.id.nav_aboutus,R.id.nav_editprofile,R.id.nav_logOut,
+                R.id.nav_notification,R.id.changePassword,R.id.nav_privacypolicy)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        if(savedInstanceState==null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.flNav,new Historyfragment()).commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.flNav, new Historyfragment()).commit();
             navigationView.setCheckedItem(R.id.nav_history);
         }
 
@@ -91,8 +92,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if(item.getItemId() == R.id.nav_history)
-                {
+                if (item.getItemId() == R.id.nav_history) {
 
                     //Toast.makeText(HomeActivity.this, "History!!", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
@@ -102,9 +102,7 @@ public class HomeActivity extends AppCompatActivity {
 //                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
-                }
-                else if(item.getItemId() == R.id.nav_contactus)
-                {
+                } else if (item.getItemId() == R.id.nav_contactus) {
                     //getSupportActionBar().setTitle("your");
                     //Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
@@ -115,9 +113,7 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.commit();
                     drawer.closeDrawers();
 
-                }
-                else if(item.getItemId() == R.id.nav_editprofile)
-                {
+                } else if (item.getItemId() == R.id.nav_editprofile) {
                     //Toast.makeText(HomeActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_editprofile);
@@ -126,9 +122,7 @@ public class HomeActivity extends AppCompatActivity {
 //                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
-                }
-                else if(item.getItemId() == R.id.nav_aboutus)
-                {
+                } else if (item.getItemId() == R.id.nav_aboutus) {
                     //Toast.makeText(HomeActivity.this, "About us", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_aboutus);
@@ -138,9 +132,7 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.commit();
                     drawer.closeDrawers();
 
-                }
-                else if(item.getItemId() == R.id.nav_privacypolicy)
-                {
+                } else if (item.getItemId() == R.id.nav_privacypolicy) {
                     //Toast.makeText(HomeActivity.this, "Privacy policy", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_privacypolicy);
@@ -149,9 +141,7 @@ public class HomeActivity extends AppCompatActivity {
 //                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
-                }
-                else if(item.getItemId() == R.id.nav_termsandcondition)
-                {
+                } else if (item.getItemId() == R.id.nav_termsandcondition) {
                     //Toast.makeText(HomeActivity.this, "Terms and Conditions", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_termsandcondition);
@@ -160,18 +150,15 @@ public class HomeActivity extends AppCompatActivity {
 //                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
-                }
-
-                else if(item.getItemId()==R.id.nav_logOut){
+                } else if (item.getItemId() == R.id.nav_logOut) {
                     //Toast.makeText(HomeActivity.this, "Logout!!", Toast.LENGTH_SHORT).show();
                     logOut();
                     drawer.closeDrawers();
-                    Intent intent = new Intent(HomeActivity.this,MainActivity.class);
+                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 
-                }
-                else if(item.getItemId()==R.id.changePassword){
+                } else if (item.getItemId() == R.id.changePassword) {
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.changePassword);
                     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
@@ -179,12 +166,11 @@ public class HomeActivity extends AppCompatActivity {
 //                    transaction.addToBackStack(null);
                     transaction.commit();
                     drawer.closeDrawers();
-                }
-                else if(item.getItemId()==R.id.nav_notification){
+                } else if (item.getItemId() == R.id.nav_notification) {
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_notification);
                     NotificationFragment notificationFragment = new NotificationFragment();
-                    transaction.replace(R.id.flNav,notificationFragment);
+                    transaction.replace(R.id.flNav, notificationFragment);
                     transaction.commit();
                     drawer.closeDrawers();
                 }
@@ -210,23 +196,23 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id. drawer_layout ) ;
-        if (drawer.isDrawerOpen(GravityCompat. START )) {
-            drawer.closeDrawer(GravityCompat. START ) ;
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
-            super .onBackPressed() ;
+            super.onBackPressed();
         }
 
     }
 
-    private void logOut(){
+    private void logOut() {
         SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(FIRSTNAME,"");
-        editor.putString(LASTNAME,"");
-        editor.putString(EMAIL,"");
-        editor.putString(PHONE,"");
-        editor.putString(ISLOGGEDIN,"false");
+        editor.putString(FIRSTNAME, "");
+        editor.putString(LASTNAME, "");
+        editor.putString(EMAIL, "");
+        editor.putString(PHONE, "");
+        editor.putString(ISLOGGEDIN, "false");
         editor.commit();
     }
 }

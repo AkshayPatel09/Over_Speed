@@ -14,6 +14,7 @@ public class UserInfo {
     // employee address.
     private String email;
     private String password;
+
     // an empty constructor is
     // required when using
     // Firebase Realtime Database.

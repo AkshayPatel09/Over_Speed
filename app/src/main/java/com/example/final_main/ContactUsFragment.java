@@ -40,7 +40,7 @@ public class ContactUsFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     SharedPreferences sharedPreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String EMAIL = "email";
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -92,7 +92,7 @@ public class ContactUsFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(message.getText().toString())){
+                if (TextUtils.isEmpty(message.getText().toString())) {
                     //Toast.makeText(getActivity(), "Please enter your message!!", Toast.LENGTH_SHORT).show();
                     //message.setError("Please enter your message!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -100,9 +100,8 @@ public class ContactUsFragment extends Fragment {
                             .setTitle("Empty field!!")
                             .setMessage("Please enter your message.")
                             .show();
-                }
-                else{
-                    addDataToFirebase(message.getText().toString(),java.time.LocalDate.now().toString(),sharedPreferences.getString(EMAIL,""));
+                } else {
+                    addDataToFirebase(message.getText().toString(), java.time.LocalDate.now().toString(), sharedPreferences.getString(EMAIL, ""));
                     Toast.makeText(getActivity(), "Your message has been recorded!!", Toast.LENGTH_SHORT).show();
                     message.setText("");
                 }
@@ -111,7 +110,8 @@ public class ContactUsFragment extends Fragment {
 
         return view;
     }
-    private void addDataToFirebase(String message,String date,String email){
+
+    private void addDataToFirebase(String message, String date, String email) {
         UserFeedback userFeedback;
         userFeedback = new UserFeedback();
 

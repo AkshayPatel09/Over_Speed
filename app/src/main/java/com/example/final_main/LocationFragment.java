@@ -82,7 +82,7 @@ public class LocationFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String notification;
     private MaterialButton stopTracking;
-    private boolean notificationFlag=false;
+    private boolean notificationFlag = false;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private HistoryData historyData;
@@ -92,13 +92,11 @@ public class LocationFragment extends Fragment {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-//            Toast.makeText(getActivity(), "/////", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
             MarkerOptions markerOptions = new MarkerOptions().position(latLng);
             if (marker == null) {
                 marker = gMap.addMarker(markerOptions);
-//                marker.setIcon(BitmapDescriptorFactory.f);
                 gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
             } else {
@@ -110,9 +108,9 @@ public class LocationFragment extends Fragment {
             lat.setText("Latitude: " + mLastLocation.getLatitude() + "");
             log.setText("Longitude: " + mLastLocation.getLongitude() + "");
             speed.setText("Speed: " + Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
-//            Toast.makeText(getActivity(), notification, Toast.LENGTH_SHORT).show();
 
-            if ((int) mLastLocation.getSpeed() >= 0  && notification.equals("true") && notificationFlag==false) {
+
+            if ((int) mLastLocation.getSpeed() >= 0 && notification.equals("true") && notificationFlag == false) {
                 historyData = new HistoryData();
                 historyData.setYourSpeed(Integer.toString((int) mLastLocation.getSpeed()));
                 historyData.setSpeedLimit(Integer.toString(40));
@@ -123,11 +121,11 @@ public class LocationFragment extends Fragment {
                 Date date = new Date();
                 historyData.setTime(sd.format(date));
                 sd.setTimeZone(TimeZone.getTimeZone("IST"));
-                notificationFlag=true;
+                notificationFlag = true;
                 addNotification();
-                addDataToFireBase(historyData,sharedPreferences.getString(LogInFragment.KEY,""));
-                Toast.makeText(getActivity(), "data saved!!", Toast.LENGTH_SHORT).show();
-            }else if((int) mLastLocation.getSpeed() >= 0  && notification.equals("false") && notificationFlag==false){
+                addDataToFireBase(historyData, sharedPreferences.getString(LogInFragment.KEY, ""));
+                //Toast.makeText(getActivity(), "Data Saved !!", Toast.LENGTH_SHORT).show();
+            } else if ((int) mLastLocation.getSpeed() >= 0 && notification.equals("false") && notificationFlag == false) {
                 historyData = new HistoryData();
                 historyData.setYourSpeed(Integer.toString((int) mLastLocation.getSpeed()));
                 historyData.setSpeedLimit(Integer.toString(40));
@@ -138,9 +136,9 @@ public class LocationFragment extends Fragment {
                 Date date = new Date();
                 historyData.setTime(sd.format(date));
                 sd.setTimeZone(TimeZone.getTimeZone("IST"));
-                notificationFlag=true;
-                addDataToFireBase(historyData,sharedPreferences.getString(LogInFragment.KEY,""));
-                Toast.makeText(getActivity(), "data saved!!", Toast.LENGTH_SHORT).show();
+                notificationFlag = true;
+                addDataToFireBase(historyData, sharedPreferences.getString(LogInFragment.KEY, ""));
+                //Toast.makeText(getActivity(), "Data Saved!!", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -227,24 +225,23 @@ public class LocationFragment extends Fragment {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
+                } else {
                     List<HistoryData> x = (List<HistoryData>) task.getResult().getValue();
-                    if(x==null){
+                    if (x == null) {
                         List<HistoryData> historyArr = new ArrayList<HistoryData>();
                         historyArr.add(historyData);
                         databaseReference.child(key).setValue(historyArr);
-                    }else {
+                    } else {
                         x.add(historyData);
                         databaseReference.child(key).setValue(x);
                     }
 
-                    Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
 //                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
                 }
             }
         });
-        Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -253,7 +250,7 @@ public class LocationFragment extends Fragment {
         stopLocationUpdates();
     }
 
-    private void stopLocationUpdates(){
+    private void stopLocationUpdates() {
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
@@ -270,22 +267,7 @@ public class LocationFragment extends Fragment {
                 // FusedLocationClient
                 // object
                 requestNewLocationData();
-//                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Location> task) {
-//                        Location location = task.getResult();
-//                        if (location == null) {
-//                            requestNewLocationData();
-//                        } else {
-//
-//                            lat.setText(location.getLatitude() + "");
-//                            log.setText(location.getLongitude() + "");
-//                            Toast.makeText(getActivity(), "...", Toast.LENGTH_SHORT).show();
-//                            requestNewLocationData();
-//
-//                        }
-//                    }
-//                });
+
             } else {
                 Toast.makeText(getActivity(), "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);

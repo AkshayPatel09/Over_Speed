@@ -117,20 +117,19 @@ public class Historyfragment extends Fragment {
         key = sharedPreferences.getString(KEY, "");
         historyList = view.findViewById(R.id.historyList);
         noData = view.findViewById(R.id.noHistoryData);
-        Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
 
         databaseReference.child(key).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
+                } else {
                     historyArr = (List<HistoryData>) task.getResult().getValue();
                     showHistory(historyArr);
 //                    Toast.makeText(getActivity(), Integer.toString(historyArr.size()), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    //Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
                 }
             }
         });
@@ -148,14 +147,13 @@ public class Historyfragment extends Fragment {
         return view;
     }
 
-    private void showHistory(List<HistoryData> historyArr){
-        if(historyArr!=null) {
+    private void showHistory(List<HistoryData> historyArr) {
+        if (historyArr != null) {
             MyAdapter myAdapter = new MyAdapter(getActivity(), historyArr, historyArr.size());
             historyList.setAdapter(myAdapter);
             historyList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-        else{
-            noData.setText("No Previous Records!!");
+        } else {
+            noData.setText("No Previous Records !!");
         }
     }
 

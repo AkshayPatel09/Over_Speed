@@ -49,12 +49,12 @@ public class EditProfileFragment extends Fragment {
     private String mParam2;
 
     private SharedPreferences sharedPreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String FIRSTNAME = "firstName";
     public static final String LASTNAME = "lastName";
     public static final String EMAIL = "email";
     public static final String PHONE = "phone";
-    private EditText fName,lName,phone;
+    private EditText fName, lName, phone;
     private Button btnApplyChanges;
 
     FirebaseDatabase firebaseDatabase;
@@ -98,10 +98,10 @@ public class EditProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        String firstName = sharedPreferences.getString(FIRSTNAME,"");
-        String lastName = sharedPreferences.getString(LASTNAME,"");
-        String email = sharedPreferences.getString(EMAIL,"");
-        String phn = sharedPreferences.getString(PHONE,"");
+        String firstName = sharedPreferences.getString(FIRSTNAME, "");
+        String lastName = sharedPreferences.getString(LASTNAME, "");
+        String email = sharedPreferences.getString(EMAIL, "");
+        String phn = sharedPreferences.getString(PHONE, "");
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("UserInfo");
@@ -121,18 +121,17 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String regexPhone = "(0/91)?[7-9][0-9]{9}";
-                Pattern patternPhone= Pattern.compile(regexPhone);
+                Pattern patternPhone = Pattern.compile(regexPhone);
                 Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
 
-                if(fName.getText().toString().length()==0 || lName.getText().toString().length()==0 || phone.getText().toString().length()==0){
+                if (fName.getText().toString().length() == 0 || lName.getText().toString().length() == 0 || phone.getText().toString().length() == 0) {
                     //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Empty Fields !!")
                             .setMessage("Please fill all the fields.")
                             .show();
-                }
-                else if(!phoneMatcher.matches()){
+                } else if (!phoneMatcher.matches()) {
                     //Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
                     //phone.setError("Phone number format is incorrect!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -140,39 +139,36 @@ public class EditProfileFragment extends Fragment {
                             .setTitle("Phone format is Incorrect !!")
                             .setMessage("Enter a valid phone number.")
                             .show();
-                }
-                else
-                {
+                } else {
                     Query query = databaseReference.orderByChild("email").equalTo(email);
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                                     String uId = messageSnapshot.getKey();
                                     HashMap hashMap = new HashMap();
-                                    hashMap.put("firstName",fName.getText().toString());
-                                    hashMap.put("lastName",lName.getText().toString());
-                                    hashMap.put("phone",phone.getText().toString());
+                                    hashMap.put("firstName", fName.getText().toString());
+                                    hashMap.put("lastName", lName.getText().toString());
+                                    hashMap.put("phone", phone.getText().toString());
                                     databaseReference.child(uId).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
                                         @Override
                                         public void onSuccess(Object o) {
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString(FIRSTNAME,fName.getText().toString());
-                                            editor.putString(LASTNAME,lName.getText().toString());
-                                            editor.putString(PHONE,phone.getText().toString());
+                                            editor.putString(FIRSTNAME, fName.getText().toString());
+                                            editor.putString(LASTNAME, lName.getText().toString());
+                                            editor.putString(PHONE, phone.getText().toString());
                                             editor.commit();
-                                            Toast.makeText(getActivity(),"Your Data is Successfully updated",Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getActivity(),HomeActivity.class);
+                                            Toast.makeText(getActivity(), "Your Data is Successfully updated", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(), HomeActivity.class);
                                             startActivity(intent);
                                             getActivity().finish();
                                         }
                                     });
 
                                 }
-                            }
-                            else{
-                                Toast.makeText(getContext(),"Error",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                             }
 
 

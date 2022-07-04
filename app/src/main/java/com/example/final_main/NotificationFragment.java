@@ -31,13 +31,7 @@ public class NotificationFragment extends Fragment {
 
     private SwitchCompat notification;
     private SharedPreferences sharedPreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
-//    public static final String FIRSTNAME = "firstName";
-//    public static final String LASTNAME = "lastName";
-//    public static final String EMAIL = "email";
-//    public static final String PHONE = "phone";
-//    public static final String PASSWORD = "password";
-//    public static final String ISLOGGEDIN = "isLoggedIn";
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String NOTIFICATION = "notification";
 
     public NotificationFragment() {
@@ -79,20 +73,18 @@ public class NotificationFragment extends Fragment {
         notification = view.findViewById(R.id.notificationSwitch);
         sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if(sharedPreferences.getString(NOTIFICATION,"").equals("false")){
+        if (sharedPreferences.getString(NOTIFICATION, "").equals("false")) {
             notification.setChecked(false);
-        }else{
+        } else {
             notification.setChecked(true);
         }
         notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(notification.isChecked())
-                {
-                    editor.putString(NOTIFICATION,"true");
-                }
-                else{
-                    editor.putString(NOTIFICATION,"false");
+                if (notification.isChecked()) {
+                    editor.putString(NOTIFICATION, "true");
+                } else {
+                    editor.putString(NOTIFICATION, "false");
                 }
                 editor.commit();
             }

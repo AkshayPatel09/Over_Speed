@@ -4,31 +4,35 @@ import java.util.Date;
 
 public class UserFeedback {
 
-    private String message,email;
+    private String message, email;
     private String curDate;
 
-    public UserFeedback(){
+    public UserFeedback() {
 
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
-    public String getEmail(){
+
+    public String getEmail() {
         return this.email;
     }
-    public String getDate(){
+
+    public String getDate() {
         return this.curDate;
     }
 
-    public void setMessage(String message){
+    public void setMessage(String message) {
         this.message = message;
     }
-    public void setEmail(String email){
-        this.email=email;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
-    public void setDate(String curDate){
-        this.curDate=curDate;
+
+    public void setDate(String curDate) {
+        this.curDate = curDate;
     }
 
 

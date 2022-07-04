@@ -49,7 +49,7 @@ public class LogInFragment extends Fragment {
     private EditText EdtPassword;
 
     private Button btnLogin;
-    private TextView NewAccount,tv;
+    private TextView NewAccount, tv;
     private TextView forgetPassword;
     private SignUpFragment signUpFragment;
     private ForgetPasswordFragment forgetPasswordFragment;
@@ -58,7 +58,7 @@ public class LogInFragment extends Fragment {
     private DatabaseReference databaseReference;
     UserInfo userInfo;
 
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String FIRSTNAME = "firstName";
     public static final String LASTNAME = "lastName";
     public static final String EMAIL = "email";
@@ -106,109 +106,103 @@ public class LogInFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-         View view =inflater.inflate(R.layout.fragment_log_in, container, false);
-         EdtEmail = view.findViewById(R.id.edt_email);
-         EdtPassword = view.findViewById(R.id.edt_pass);
-         btnLogin = view.findViewById(R.id.login_btn);
-         NewAccount = view.findViewById(R.id.new_acc);
-//         tv = view.findViewById(R.id.textInputLayout8);
-         firebaseDatabase = FirebaseDatabase.getInstance();
-         databaseReference = firebaseDatabase.getReference("UserInfo");
-         forgetPassword = view.findViewById(R.id.forget_pass);
-         userInfo = new UserInfo();
+        View view = inflater.inflate(R.layout.fragment_log_in, container, false);
+        EdtEmail = view.findViewById(R.id.edt_email);
+        EdtPassword = view.findViewById(R.id.edt_pass);
+        btnLogin = view.findViewById(R.id.login_btn);
+        NewAccount = view.findViewById(R.id.new_acc);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("UserInfo");
+        forgetPassword = view.findViewById(R.id.forget_pass);
+        userInfo = new UserInfo();
 
 
+        NewAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                signUpFragment = new SignUpFragment();
+                transaction.replace(R.id.flMain, signUpFragment);
+                transaction.commit();
+            }
+        });
 
-         NewAccount.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                 signUpFragment = new SignUpFragment();
-                 transaction.replace(R.id.flMain, signUpFragment);
-//                 transaction.addToBackStack(null);
-                 transaction.commit();
-             }
-         });
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                forgetPasswordFragment = new ForgetPasswordFragment();
+                transaction.replace(R.id.flMain, forgetPasswordFragment);
+                transaction.commit();
+            }
+        });
 
-         forgetPassword.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                 forgetPasswordFragment = new ForgetPasswordFragment();
-                 transaction.replace(R.id.flMain, forgetPasswordFragment);
-//                 transaction.addToBackStack(null);
-                 transaction.commit();
-             }
-         });
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(EdtEmail.getText().toString()) || TextUtils.isEmpty(EdtPassword.getText().toString())) {
+                    //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Empty Fields !!")
+                            .setMessage("Please fill all the fields.")
+                            .show();
+                } else {
+                    Query query = databaseReference.orderByChild("email").equalTo(EdtEmail.getText().toString());
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
+                                    String dbPassword = (String) messageSnapshot.child("password").getValue();
+                                    if (dbPassword.equals(EdtPassword.getText().toString())) {
 
-         btnLogin.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 if(TextUtils.isEmpty(EdtEmail.getText().toString()) || TextUtils.isEmpty(EdtPassword.getText().toString())){
-                     //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
-                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                             .setIcon(android.R.drawable.ic_dialog_alert)
-                             .setTitle("Empty Fields !!")
-                             .setMessage("Please fill all the fields.")
-                             .show();
-                 }
-                 else{
-                     Query query = databaseReference.orderByChild("email").equalTo(EdtEmail.getText().toString());
-                     query.addListenerForSingleValueEvent(new ValueEventListener() {
-                         @Override
-                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                             if(snapshot.exists()){
-                                 for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
-                                     String dbPassword = (String) messageSnapshot.child("password").getValue();
-                                     if(dbPassword.equals(EdtPassword.getText().toString())){
-
-                                         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES,Context.MODE_PRIVATE);
-                                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                                         editor.putString(KEY,(String) messageSnapshot.getKey());
-                                         editor.putString(FIRSTNAME,(String) messageSnapshot.child("firstName").getValue() );
-                                         editor.putString(LASTNAME,(String) messageSnapshot.child("lastName").getValue() );
-                                         editor.putString(EMAIL,(String) messageSnapshot.child("email").getValue() );
-                                         editor.putString(PHONE,(String) messageSnapshot.child("phone").getValue());
-                                         editor.putString(PASSWORD,dbPassword);
-                                         editor.putString(ISLOGGEDIN,"true");
-                                         editor.putString(NOTIFICATION,"false");
-                                         editor.commit();
-                                         Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
-                                         Intent intent = new Intent(getActivity(),HomeActivity.class);
-                                         startActivity(intent);
-                                         getActivity().finish();
-                                     }
-                                     else{
-                                         //Toast.makeText(getActivity(), "Incorrect Password", Toast.LENGTH_SHORT).show();
-                                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                                                 .setIcon(android.R.drawable.ic_dialog_alert)
-                                                 .setTitle("Incorrect Password !!")
-                                                 .setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
-                                                 .show();
-                                         //EdtPassword.setError("Incorrect password!!");
+                                        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        editor.putString(KEY, (String) messageSnapshot.getKey());
+                                        editor.putString(FIRSTNAME, (String) messageSnapshot.child("firstName").getValue());
+                                        editor.putString(LASTNAME, (String) messageSnapshot.child("lastName").getValue());
+                                        editor.putString(EMAIL, (String) messageSnapshot.child("email").getValue());
+                                        editor.putString(PHONE, (String) messageSnapshot.child("phone").getValue());
+                                        editor.putString(PASSWORD, dbPassword);
+                                        editor.putString(ISLOGGEDIN, "true");
+                                        editor.putString(NOTIFICATION, "false");
+                                        editor.commit();
+                                        Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    } else {
+                                        //Toast.makeText(getActivity(), "Incorrect Password", Toast.LENGTH_SHORT).show();
+                                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setTitle("Incorrect Password !!")
+                                                //.setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
+                                                .show();
+                                        //EdtPassword.setError("Incorrect password!!");
 
 
-                                     }
-                                 }
-                             } else{
-                                 //Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
-                                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                                         .setIcon(android.R.drawable.ic_dialog_alert)
-                                         .setTitle("Account Doesn't Exists !!")
-                                         .setMessage("Enter verified Email.")
-                                         .show();
-                             }
-                         }
+                                    }
+                                }
+                            } else {
+                                //Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Account Doesn't Exists !!")
+                                        .setMessage("Enter verified Email.")
+                                        .show();
+                            }
+                        }
 
-                         @Override
-                         public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                         }
-                     });
-                 }
-             }
-         });
-         return view;
+                        }
+                    });
+                }
+            }
+        });
+        return view;
     }
 
 }

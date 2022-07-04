@@ -20,10 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         lif = new LogInFragment();
-//        suf = new SignUpFragment();
         transaction.replace(R.id.flMain, lif);
-//        transaction.replace(R.id.flMain, suf);
-//        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -35,10 +32,7 @@ public class MainActivity extends AppCompatActivity {
         if (count == 0) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             lif = new LogInFragment();
-//            suf = new SignUpFragment();
             transaction.replace(R.id.flMain, lif);
-//            transaction.replace(R.id.flMain, suf);
-//            transaction.addToBackStack(null);
             transaction.commit();
         }
     }

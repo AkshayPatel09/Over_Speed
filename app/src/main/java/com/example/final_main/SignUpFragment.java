@@ -46,7 +46,7 @@ public class SignUpFragment extends Fragment {
     private TextView login;
     private FragmentTransaction transaction;
     LogInFragment lif;
-    private EditText fName,lName,phone,email,password,confirmPassword;
+    private EditText fName, lName, phone, email, password, confirmPassword;
     private Button createAccountBtn;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -87,7 +87,7 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_sign_up, container, false);
+        View v = inflater.inflate(R.layout.fragment_sign_up, container, false);
         fName = v.findViewById(R.id.firstName);
         lName = v.findViewById(R.id.lastName);
         email = v.findViewById(R.id.email);
@@ -110,7 +110,6 @@ public class SignUpFragment extends Fragment {
                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 lif = new LogInFragment();
                 transaction.replace(R.id.flMain, lif);
-//                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -131,27 +130,28 @@ public class SignUpFragment extends Fragment {
                  * phone number validation
                  */
                 String regexPhone = "(0/91)?[7-9][0-9]{9}";
-                Pattern patternPhone= Pattern.compile(regexPhone);
+                Pattern patternPhone = Pattern.compile(regexPhone);
                 Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
 
                 /**
                  * password validation
                  */
-                String regexPassword =  "^(?=.*[0-9])"
+                String regexPassword = "^(?=.*[0-9])"
                         + "(?=.*[a-z])(?=.*[A-Z])"
                         + "(?=.*[@#$%^&+=])"
-                        +  "(?=\\S+$).{8,12}$";;
-                Pattern patternPassword= Pattern.compile(regexPassword);
+                        + "(?=\\S+$).{8,12}$";
+                ;
+                Pattern patternPassword = Pattern.compile(regexPassword);
                 Matcher passwordMatcher = patternPassword.matcher(password.getText().toString());
 
-                if(fName.getText().toString().length()==0 || lName.getText().toString().length()==0 || email.getText().toString().length()==0 || phone.getText().toString().length()==0 || password.getText().toString().length()==0 || confirmPassword.getText().toString().length()==0){
+                if (fName.getText().toString().length() == 0 || lName.getText().toString().length() == 0 || email.getText().toString().length() == 0 || phone.getText().toString().length() == 0 || password.getText().toString().length() == 0 || confirmPassword.getText().toString().length() == 0) {
                     //Toast.makeText(getActivity(), "Please fill all the fileds!!", Toast.LENGTH_SHORT).show();
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Empty Fields !!")
                             .setMessage("Please fill all the fields.")
                             .show();
-                }else if(!emailMatcher.matches()){
+                } else if (!emailMatcher.matches()) {
                     //Toast.makeText(getActivity(), "Email format is incorrect!!", Toast.LENGTH_SHORT).show();
                     //email.setError("Email format is incorrect!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -159,7 +159,7 @@ public class SignUpFragment extends Fragment {
                             .setTitle("Email format is Incorrect !!")
                             .setMessage("Enter a valid email address.")
                             .show();
-                }else if(!phoneMatcher.matches()){
+                } else if (!phoneMatcher.matches()) {
                     //Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
                     //phone.setError("Phone number format is incorrect!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -167,7 +167,7 @@ public class SignUpFragment extends Fragment {
                             .setTitle("Phone format is Incorrect !!")
                             .setMessage("Enter a valid phone number.")
                             .show();
-                }else if(!passwordMatcher.matches()){
+                } else if (!passwordMatcher.matches()) {
                     //Toast.makeText(getActivity(), "Password format is incorrect!!", Toast.LENGTH_SHORT).show();
                     //password.setError("Password format is incorrect!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -175,7 +175,7 @@ public class SignUpFragment extends Fragment {
                             .setTitle("Incorrect Password !!")
                             .setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
                             .show();
-                }else if(!password.getText().toString().equals(confirmPassword.getText().toString())){
+                } else if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
                     //Toast.makeText(getActivity(), "confirm password doesn't match!!", Toast.LENGTH_SHORT).show();
                     //confirmPassword.setError("confirm password doesn't match!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -183,14 +183,14 @@ public class SignUpFragment extends Fragment {
                             .setTitle("Incorrect Password !!")
                             .setMessage("Confirm Password doesn't match.")
                             .show();
-                }else{
+                } else {
 //                    Toast.makeText(getActivity(), "sending data.....", Toast.LENGTH_SHORT).show();
                     Query query = databaseReference.orderByChild("email").equalTo(email.getText().toString());
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                                     //Toast.makeText(getActivity(),"Email is already registered!!" , Toast.LENGTH_SHORT).show();
                                     //email.setError("Email is already registered!!");
                                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -199,9 +199,8 @@ public class SignUpFragment extends Fragment {
                                             .setMessage("Email is already registered.")
                                             .show();
                                 }
-                            }
-                            else{
-                                addDatatoFirebase(fName.getText().toString(), lName.getText().toString(), email.getText().toString(),phone.getText().toString(),password.getText().toString());
+                            } else {
+                                addDatatoFirebase(fName.getText().toString(), lName.getText().toString(), email.getText().toString(), phone.getText().toString(), password.getText().toString());
                                 Toast.makeText(getActivity(), "Account created successfully!!", Toast.LENGTH_SHORT).show();
                                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                 lif = new LogInFragment();
@@ -226,7 +225,7 @@ public class SignUpFragment extends Fragment {
         return v;
     }
 
-    private void addDatatoFirebase(String fName,String lName,String email,String phone,String password){
+    private void addDatatoFirebase(String fName, String lName, String email, String phone, String password) {
         userInfo.setFirstName(fName);
         userInfo.setLastName(lName);
         userInfo.setEmail(email);
