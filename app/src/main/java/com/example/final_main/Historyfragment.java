@@ -53,21 +53,20 @@ import java.util.List;
  */
 public class Historyfragment extends Fragment {
 
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String NOTIFICATION = "notification";
+    public static final String KEY = "key";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    MyAdapter myAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private SharedPreferences sharedPreferences;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    public static final String MyPREFERENCES = "MyPrefs";
-    public static final String NOTIFICATION = "notification";
-    public static final String KEY = "key";
     private String key;
     private List<HistoryData> historyArr;
     private RecyclerView historyList;
@@ -111,6 +110,7 @@ public class Historyfragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_historyfragment, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab);
+        FloatingActionButton fabDelete = view.findViewById(R.id.deleteHistory);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("HistoryArr");
         sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
@@ -118,21 +118,19 @@ public class Historyfragment extends Fragment {
         historyList = view.findViewById(R.id.historyList);
         noData = view.findViewById(R.id.noHistoryData);
         //Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
-
-        databaseReference.child(key).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                } else {
-                    historyArr = (List<HistoryData>) task.getResult().getValue();
-                    showHistory(historyArr);
-//                    Toast.makeText(getActivity(), Integer.toString(historyArr.size()), Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
-                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
+        showHistory();
+//        databaseReference.child(key).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.e("firebase", "Error getting data", task.getException());
+//                } else {
+//                    historyArr = (List<HistoryData>) task.getResult().getValue();
+//                    showHistory(historyArr);
+//
+//                }
+//            }
+//        });
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -144,17 +142,40 @@ public class Historyfragment extends Fragment {
             }
         });
 
+        fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child(key).setValue(new ArrayList<HistoryData>());
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flNav, new Historyfragment()).commit();
+
+            }
+        });
+
         return view;
     }
 
-    private void showHistory(List<HistoryData> historyArr) {
-        if (historyArr != null) {
-            MyAdapter myAdapter = new MyAdapter(getActivity(), historyArr, historyArr.size());
-            historyList.setAdapter(myAdapter);
-            historyList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        } else {
-            noData.setText("No Previous Records !!");
-        }
+    private void showHistory() {
+        databaseReference.child(key).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    historyArr = (List<HistoryData>) task.getResult().getValue();
+//                    MyAdapter myAdapter = new MyAdapter(getActivity(), historyArr, historyArr.size());
+                    if (historyArr != null) {
+                        myAdapter = new MyAdapter(getActivity(), historyArr, historyArr.size());
+                        historyList.setAdapter(myAdapter);
+                        historyList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    } else {
+
+                        noData.setText("No Previous Records !!");
+                    }
+
+                }
+            }
+        });
+
     }
 
 
