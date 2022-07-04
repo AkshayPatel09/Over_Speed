@@ -38,17 +38,16 @@
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView8"
         app:layout_constraintVertical_bias="0.118">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/aboutus"
-        android:inputType="textMultiLine"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:minLines="4"
-        />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/aboutus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
-</com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
