@@ -22,6 +22,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        applicationVariants.all {
+            variant ->
+                variant.outputs.each {
+                    output ->
+                        project.ext { appName = 'Over Speed' }
+                        def formattedDate = new Date().format('dd_MM_yyyy_HH_mm_ss')
+                        output.outputFileName = "${appName}_${variant.versionName}.apk"
+                }
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

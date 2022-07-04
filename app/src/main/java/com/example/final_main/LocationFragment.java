@@ -110,7 +110,7 @@ public class LocationFragment extends Fragment {
             speed.setText("Speed: " + Integer.toString((int) mLastLocation.getSpeed()) + " Kmph");
 
 
-            if ((int) mLastLocation.getSpeed() >= 0 && notification.equals("true") && notificationFlag == false) {
+            if ((int) mLastLocation.getSpeed() >= 30 && notification.equals("true") && notificationFlag == false) {
                 historyData = new HistoryData();
                 historyData.setYourSpeed(Integer.toString((int) mLastLocation.getSpeed()));
                 historyData.setSpeedLimit(Integer.toString(40));
@@ -125,7 +125,7 @@ public class LocationFragment extends Fragment {
                 addNotification();
                 addDataToFireBase(historyData, sharedPreferences.getString(LogInFragment.KEY, ""));
                 //Toast.makeText(getActivity(), "Data Saved !!", Toast.LENGTH_SHORT).show();
-            } else if ((int) mLastLocation.getSpeed() >= 0 && notification.equals("false") && notificationFlag == false) {
+            } else if ((int) mLastLocation.getSpeed() >= 30 && notification.equals("false") && notificationFlag == false) {
                 historyData = new HistoryData();
                 historyData.setYourSpeed(Integer.toString((int) mLastLocation.getSpeed()));
                 historyData.setSpeedLimit(Integer.toString(40));
