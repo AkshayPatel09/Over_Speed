@@ -240,7 +240,7 @@ public class LocationFragment extends Fragment {
                     }
 
                     Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+//                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
                 }
             }
         });

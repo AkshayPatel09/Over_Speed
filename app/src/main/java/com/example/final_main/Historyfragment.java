@@ -14,9 +14,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Looper;
 import android.provider.Settings;
@@ -41,7 +44,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,11 +61,17 @@ public class Historyfragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ActivityHomeBinding binding;
-    public static final String MyPREFERENCES = "MyPrefs";
+
     private SharedPreferences sharedPreferences;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String NOTIFICATION = "notification";
+    public static final String KEY = "key";
+    private String key;
+    private List<HistoryData> historyArr;
+    private RecyclerView historyList;
+    private AppCompatTextView noData;
 
 
     public Historyfragment() {
@@ -103,6 +111,31 @@ public class Historyfragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_historyfragment, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("HistoryArr");
+        sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        key = sharedPreferences.getString(KEY, "");
+        historyList = view.findViewById(R.id.historyList);
+        noData = view.findViewById(R.id.noHistoryData);
+        Toast.makeText(getActivity(), key, Toast.LENGTH_SHORT).show();
+
+        databaseReference.child(key).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    historyArr = (List<HistoryData>) task.getResult().getValue();
+                    showHistory(historyArr);
+//                    Toast.makeText(getActivity(), Integer.toString(historyArr.size()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +146,17 @@ public class Historyfragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void showHistory(List<HistoryData> historyArr){
+        if(historyArr!=null) {
+            MyAdapter myAdapter = new MyAdapter(getActivity(), historyArr, historyArr.size());
+            historyList.setAdapter(myAdapter);
+            historyList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+        else{
+            noData.setText("No Previous Records!!");
+        }
     }
 
 
