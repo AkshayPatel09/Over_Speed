@@ -62,14 +62,6 @@ public class HomeActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarHome.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //getSupportActionBar().setTitle("your title");
-//        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
@@ -102,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                 if(item.getItemId() == R.id.nav_history)
                 {
 
-                    Toast.makeText(HomeActivity.this, "History!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "History!!", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_history);
                     historyfragment = new Historyfragment();
@@ -114,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                 else if(item.getItemId() == R.id.nav_contactus)
                 {
                     //getSupportActionBar().setTitle("your");
-                    Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "contactus", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_contactus);
                     contactUsFragment = new ContactUsFragment();
@@ -126,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_editprofile)
                 {
-                    Toast.makeText(HomeActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_editprofile);
                     editProfileFragment = new EditProfileFragment();
@@ -137,7 +129,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_aboutus)
                 {
-                    Toast.makeText(HomeActivity.this, "About us", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "About us", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_aboutus);
                     aboutusFragment = new AboutusFragment();
@@ -149,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_privacypolicy)
                 {
-                    Toast.makeText(HomeActivity.this, "Privacy policy", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Privacy policy", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_privacypolicy);
                     privacyPolicyFragment = new PrivacyPolicyFragment();
@@ -160,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_termsandcondition)
                 {
-                    Toast.makeText(HomeActivity.this, "Terms and Conditions", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Terms and Conditions", Toast.LENGTH_SHORT).show();
                     FragmentTransaction transaction = HomeActivity.this.getSupportFragmentManager().beginTransaction();
                     navigationView.setCheckedItem(R.id.nav_termsandcondition);
                     termsandConditionFragment = new TermsandConditionFragment();
@@ -171,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 else if(item.getItemId()==R.id.nav_logOut){
-                    Toast.makeText(HomeActivity.this, "Logout!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Logout!!", Toast.LENGTH_SHORT).show();
                     logOut();
                     drawer.closeDrawers();
                     Intent intent = new Intent(HomeActivity.this,MainActivity.class);
