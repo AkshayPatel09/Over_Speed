@@ -50,6 +50,8 @@ public class ChangePasswordFragment extends Fragment {
     public static final String EMAIL = "email";
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private PassEnc encryptor;
+    String curPassword;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -98,7 +100,8 @@ public class ChangePasswordFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("UserInfo");
-        String curPassword = sharedPreferences.getString(PASSWORD, "");
+        encryptor = new PassEnc();
+        curPassword = sharedPreferences.getString(PASSWORD, "");
         String curEmail = sharedPreferences.getString(EMAIL, "");
 
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +121,7 @@ public class ChangePasswordFragment extends Fragment {
                             .setTitle("Empty Fields !!")
                             .setMessage("Please fill all the fields.")
                             .show();
-                } else if (!oldPassword.getText().toString().equals(curPassword)) {
+                } else if (!encryptor.matchPassword(curPassword,oldPassword.getText().toString())) {
                     //Toast.makeText(getActivity(), "Old Password is incorrect!!", Toast.LENGTH_SHORT).show();
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -143,8 +146,9 @@ public class ChangePasswordFragment extends Fragment {
                             .show();
                 } else {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(PASSWORD, newPassword.getText().toString());
+                    editor.putString(PASSWORD, encryptor.encryptPassword(newPassword.getText().toString()));
                     editor.commit();
+                    curPassword = encryptor.encryptPassword(newPassword.getText().toString());
                     Query query = databaseReference.orderByChild("email").equalTo(curEmail);
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -153,7 +157,7 @@ public class ChangePasswordFragment extends Fragment {
                                 for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                                     String uId = messageSnapshot.getKey();
                                     HashMap hashMap = new HashMap();
-                                    hashMap.put("password", newPassword.getText().toString());
+                                    hashMap.put("password", encryptor.encryptPassword(newPassword.getText().toString()));
                                     databaseReference.child(uId).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
                                         @Override
                                         public void onSuccess(Object o) {

@@ -45,13 +45,13 @@ public class SignUpFragment extends Fragment {
 
     private TextView login;
     private FragmentTransaction transaction;
-    LogInFragment lif;
+    private LogInFragment lif;
     private EditText fName, lName, phone, email, password, confirmPassword;
     private Button createAccountBtn;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    UserInfo userInfo;
-
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private UserInfo userInfo;
+    private PassEnc encryptor;
     public SignUpFragment() {
         // Required empty public constructor
     }
@@ -98,6 +98,7 @@ public class SignUpFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("UserInfo");
         userInfo = new UserInfo();
+        encryptor = new PassEnc();
 
         /**
          * Changes signup fragment with login fragment
@@ -230,8 +231,8 @@ public class SignUpFragment extends Fragment {
         userInfo.setLastName(lName);
         userInfo.setEmail(email);
         userInfo.setPhone(phone);
-        userInfo.setPassword(password);
-
+        String encPassword = encryptor.encryptPassword(password);
+        userInfo.setPassword(encPassword);
         String uId = databaseReference.push().getKey();
         databaseReference.child(uId).setValue(userInfo);
 

@@ -56,7 +56,7 @@ public class LogInFragment extends Fragment {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    UserInfo userInfo;
+    private UserInfo userInfo;
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String FIRSTNAME = "firstName";
@@ -67,7 +67,8 @@ public class LogInFragment extends Fragment {
     public static final String ISLOGGEDIN = "isLoggedIn";
     public static final String NOTIFICATION = "notification";
     public static final String KEY = "key";
-    SharedPreferences sharedpreferences;
+    private SharedPreferences sharedpreferences;
+    private PassEnc encryptor;
 
     public LogInFragment() {
         // Required empty public constructor
@@ -115,7 +116,7 @@ public class LogInFragment extends Fragment {
         databaseReference = firebaseDatabase.getReference("UserInfo");
         forgetPassword = view.findViewById(R.id.forget_pass);
         userInfo = new UserInfo();
-
+        encryptor = new PassEnc();
 
         NewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,19 +156,9 @@ public class LogInFragment extends Fragment {
                             if (snapshot.exists()) {
                                 for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                                     String dbPassword = (String) messageSnapshot.child("password").getValue();
-                                    if (dbPassword.equals(EdtPassword.getText().toString())) {
+                                    if (encryptor.matchPassword(dbPassword,EdtPassword.getText().toString())) {
 
-                                        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        editor.putString(KEY, (String) messageSnapshot.getKey());
-                                        editor.putString(FIRSTNAME, (String) messageSnapshot.child("firstName").getValue());
-                                        editor.putString(LASTNAME, (String) messageSnapshot.child("lastName").getValue());
-                                        editor.putString(EMAIL, (String) messageSnapshot.child("email").getValue());
-                                        editor.putString(PHONE, (String) messageSnapshot.child("phone").getValue());
-                                        editor.putString(PASSWORD, dbPassword);
-                                        editor.putString(ISLOGGEDIN, "true");
-                                        editor.putString(NOTIFICATION, "false");
-                                        editor.commit();
+                                        writeToSharedPref(messageSnapshot);
                                         Toast.makeText(getActivity(), "Login successful!!", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                                         startActivity(intent);
@@ -196,7 +187,7 @@ public class LogInFragment extends Fragment {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Toast.makeText(getActivity(), "cancelled", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -205,4 +196,20 @@ public class LogInFragment extends Fragment {
         return view;
     }
 
+    private void writeToSharedPref(DataSnapshot messageSnapshot){
+        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(KEY, (String) messageSnapshot.getKey());
+        editor.putString(FIRSTNAME, (String) messageSnapshot.child("firstName").getValue());
+        editor.putString(LASTNAME, (String) messageSnapshot.child("lastName").getValue());
+        editor.putString(EMAIL, (String) messageSnapshot.child("email").getValue());
+        editor.putString(PHONE, (String) messageSnapshot.child("phone").getValue());
+        editor.putString(PASSWORD, (String) messageSnapshot.child("password").getValue());
+        editor.putString(ISLOGGEDIN, "true");
+        editor.putString(NOTIFICATION, "false");
+        editor.commit();
+    }
+
 }
+//"now < 1658255400000",  // 2022-7-20
+// "now < 1658255400000",  // 2022-7-20
